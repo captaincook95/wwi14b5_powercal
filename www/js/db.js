@@ -1,3 +1,5 @@
+document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+
 function onDeviceReady() {
 		alert("db.js onDeviceReady");
         var db = window.openDatabase("Database", "1.0", "PowerCal DB", 200000);
