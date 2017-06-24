@@ -38,7 +38,7 @@
 					<h1>PowerCal</h1>
 				</div>
 				<div role="main" class="ui-content">
-					<a data-role="button" href="#contacts_overview">Kontakte</a>
+					<a data-role="button" data-icon="user" href="#contacts_overview">Kontakte</a>
 				</div>
 			</div>
 			<div data-role="page" id="contacts_overview">
@@ -60,6 +60,7 @@
 					<h1>Kontakt bearbeiten/erstellen</h1>
 				</div>
 				<div role="main" class="ui-content">
+					<input id="k_id" type="hidden">
 					<label>Name</label>
 					<input id="kontakt_name" type="text" required="required">
 					<label>Vorame</label>
@@ -69,7 +70,7 @@
 					<label>Mailadresse</label>
 					<input id="kontakt_email" type="text">
 					<label>Bemerkung</label>
-					<textarea id="kontakt_bemerkung" type="text" rows="3"></textarea>
+					<textarea id="kontakt_bemerkung" type="text" rows="5"></textarea>
 				</div>
 			</div>
     </body>
