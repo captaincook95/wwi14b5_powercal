@@ -38,11 +38,34 @@
 					<h1>PowerCal</h1>
 				</div>
 				<div role="main" class="ui-content">
+					<a data-role="button" class="ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left"  href="#new_appointment">Neuer Termin</a>
 					<a data-role="button" data-icon="user" href="#contacts_overview">Kontakte</a>
 				</div>
 			</div>
+			<div data-role="page" id="new_appointment">
+				<div data-role="header">
+					<a data-icon="carat-l" data-iconpos="notext" data-rel="back"></a>
+					<h1>Neuer Termin</h1>
+				</div>
+				<div role="main" class="ui-content">
+					<input id="t_id" type="hidden">
+					<label for="t_titel">Titel</label>
+					<input name="t_titel" id="t_titel" type="text" required="required">
+					<label for="t_place">Ort</label>
+					<input name="t_place" id="t_place" type="text" required="required">
+					<label for="t_start">Beginn: </label>
+					<input name="t_start" id="t_start" type="text" required="required">
+					<label for="t_end">Ende: </label>
+					<input name="t_end" id="t_end" type="text" required="required">					
+					<label for="t_file">Anhang: </label>
+					<input name="t_file" id="t_file" type="file">
+					<label for="t_note">Bemerkung: </label>
+					<textarea name="t_note" id="t_note"" type="text" rows="5"></textarea>
+				</div>
+				
+			</div>
 			<div data-role="page" id="contacts_overview">
-				<div data-role="header"b text-transform:none>
+				<div data-role="header">
 					<a data-icon="carat-l" data-iconpos="notext" data-rel="back"></a>
 					<h1>Kontakte</h1>
 				</div>
