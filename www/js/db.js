@@ -1,7 +1,6 @@
 document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
 
 function onDeviceReady() {
-		alert("db.js onDeviceReady");
         var db = window.openDatabase("Database", "1.0", "PowerCal DB", 200000);
         db.transaction(createTables, errorCB, successCB);
 		function createTables(tx){
@@ -15,7 +14,6 @@ function onDeviceReady() {
 			alert(err.code+ ' ' +  err.message);
 		}
 		function successCB(){
-			alert('Tabellen angelegt');
 		}
     }
 	
