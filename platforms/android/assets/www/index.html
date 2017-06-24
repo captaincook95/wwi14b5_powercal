@@ -38,15 +38,38 @@
 					<h1>PowerCal</h1>
 				</div>
 				<div role="main" class="ui-content">
-				<a data-role="button" href="#contacts_overview">Kontakte</a>
+					<a data-role="button" href="#contacts_overview">Kontakte</a>
 				</div>
 			</div>
 			<div data-role="page" id="contacts_overview">
 				<div data-role="header">
+					<a data-icon="carat-l" data-iconpos="notext" data-rel="back"></a>
 					<h1>Kontakte</h1>
 				</div>
 				<div role="main" class="ui-content">
-					Das ist die Seite für die Kontakte
+					Hier können Kontakte verwaltet werden
+					<ul data-role="listview" data-inset="true" id="contacts">
+					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
+					</ul>
+					<a data-role="button" href="#contact_details">Neuer Kontakt</a>
+				</div>
+			</div>
+			<div data-role="page" id="contact_details">
+				<div data-role="header">
+					<a data-icon="carat-l" data-iconpos="notext" data-rel="back"></a>
+					<h1>Kontakt bearbeiten/erstellen</h1>
+				</div>
+				<div role="main" class="ui-content">
+					<label>Name</label>
+					<input id="kontakt_name" type="text" required="required">
+					<label>Vorame</label>
+					<input id="kontakt_vorname" type="text" required="required">
+					<label>Telefonnummer</label>
+					<input id="kontakt_telnr" type="number">
+					<label>Mailadresse</label>
+					<input id="kontakt_email" type="text">
+					<label>Bemerkung</label>
+					<textarea id="kontakt_bemerkung" type="text" rows="3"></textarea>
 				</div>
 			</div>
     </body>
