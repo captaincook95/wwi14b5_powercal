@@ -7,13 +7,13 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.github.powercal"
-        },
         "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.github.powercal"
         },
         "cordova-plugin-contacts": {
+            "PACKAGE_NAME": "com.github.powercal"
+        },
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.github.powercal"
         }
     },

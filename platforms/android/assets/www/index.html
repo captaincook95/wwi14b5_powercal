@@ -35,10 +35,12 @@
     <body>
             <div data-role="page" id="index">
 				<div data-role="header">
+					<a href="#home" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
 					<h1>PowerCal</h1>
+					<a href="#settings" class="ui-btn ui-shadow ui-corner-all ui-icon-gear ui-btn-icon-right ui-btn-icon-notext">Settings</a>
 				</div>
 				<div role="main" class="ui-content">
-					<a data-role="button" class="ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left"  href="#new_appointment">Neuer Termin</a>
+					<a data-role="button" data-transition="none" class="ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left"  href="#new_appointment">Neuer Termin</a>
 					<a data-role="button" data-icon="user" href="#contacts_overview">Kontakte</a>
 				</div>
 			</div>
@@ -69,7 +71,7 @@
 					<a data-icon="carat-l" data-iconpos="notext" data-rel="back"></a>
 					<h1>Kontakte</h1>
 				</div>
-				<div role="main" class="ui-content" text-transform:none>
+				<div role="main" class="ui-content" >
 					Hier können Kontakte verwaltet werden
 					<ul data-role="listview" data-inset="true" id="contacts">
 					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
