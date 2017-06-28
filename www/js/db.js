@@ -27,7 +27,7 @@ function createContact(){
 		//alert(vname+nname+telnr+email+bem);
 		db.transaction(newContact, errorCB, successCB);
 		function newContact(tx){
-			tx.executeSql("INSERT INTO KUNDE (VORNAME,NACHNAME,TELNR,EMAIL,BEMERKUNG) VALUES (?,?,?,?,?)",[vname,nname,telnr,email,bem],succesCB,errorCB);
+			tx.executeSql("INSERT INTO KUNDE (VORNAME,NACHNAME,TELNR,EMAIL,BEMERKUNG) VALUES (?,?,?,?,?)",[vname,nname,telnr,email,bem]);
 		}
 		function errorCB(err){
 			alert(err.code+ ' ' +  err.message);
