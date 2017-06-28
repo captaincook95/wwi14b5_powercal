@@ -1,7 +1,7 @@
-document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+var db;
 
-function onDeviceReady() {
-        var db = window.openDatabase("Database", "1.0", "PowerCal DB", 200000);
+function openDB() {
+        db = window.openDatabase("Database", "1.0", "PowerCal DB", 200000);
         db.transaction(createTables, errorCB, successCB);
 		function createTables(tx){
 			tx.executeSql("CREATE TABLE IF NOT EXISTS TERMIN (tid INTEGER PRIMARY KEY, ANFANG TEXT, ENDE TEXT, TITEL TEXT, BESCHREIBUB TEXT, OID INTEGER);");
@@ -14,8 +14,40 @@ function onDeviceReady() {
 			alert(err.code+ ' ' +  err.message);
 		}
 		function successCB(){
+			//alert("Tabellen angelegt");
 		}
     }
+	
+function createContact(){
+		var vname = $("#kontakt_vorname").val();
+		var nname = $("#kontakt_name").val();
+		var telnr = $("#kontakt_telnr").val();
+		var email = $("#kontakt_email").val();
+		var bem = $("#kontakt_bemerkung").val();
+		//alert(vname+nname+telnr+email+bem);
+		db.transaction(newContact, errorCB, successCB);
+		function newContact(tx){
+			tx.executeSql("INSERT INTO KUNDE (VORNAME,NACHNAME,TELNR,EMAIL,BEMERKUNG) VALUES (?,?,?,?,?)",[vname,nname,telnr,email,bem],succesCB,errorCB);
+		}
+		function errorCB(err){
+			alert(err.code+ ' ' +  err.message);
+		}
+		function successCB(){
+			alert("Kontakt angelegt");
+			location.href="#contacts_overview";
+		}
+}
+
+function getContacts(callback){
+	db.transaction(function(tx){
+		tx.executeSql("SELECT * FROM KUNDE ORDER BY NACHNAME",[],callback);
+	},errorCB,successCB);
+	function errorCB(err){
+		alert(err.code+ ' ' +  err.message);
+	}
+	function successCB(){
+	}
+}
 	
 	
 	
