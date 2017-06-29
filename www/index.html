@@ -40,8 +40,17 @@
 					<a href="#settings" class="ui-btn ui-shadow ui-corner-all ui-icon-gear ui-btn-icon-right ui-btn-icon-notext">Settings</a>
 				</div>
 				<div role="main" class="ui-content">
-					<a data-role="button" data-transition="none" class="ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left"  href="#new_appointment">Neuer Termin</a>
-					<a data-role="button" data-icon="user" href="#contacts_overview">Kontakte</a>
+	<!-- 				<a data-role="button" data-transition="none" class="ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left"  href="#new_appointment">Neuer Termin</a>
+					<a data-role="button" data-icon="user" href="#contacts_overview">Kontakte</a> -->
+					<p> Hier werden die Termine angezeigt. </p>
+				</div>
+				<div data-role="footer" data-position="fixed">
+					<div data-role="navbar">
+						<ul>
+							<li><a href="#contacts_overview" data-icon="user">Kontakte</a></li>
+							<li><a href="#new_appointment" data-icon="plus">Neuer Termin</a></li>
+						</ul>
+					</div>
 				</div>
 			</div>
 			<div data-role="page" id="new_appointment">
@@ -64,7 +73,6 @@
 					<label for="t_note">Bemerkung: </label>
 					<textarea name="t_note" id="t_note"" type="text" rows="5"></textarea>
 				</div>
-				
 			</div>
 			<div data-role="page" id="contacts_overview">
 				<div data-role="header">
