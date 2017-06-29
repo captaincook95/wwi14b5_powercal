@@ -28,7 +28,7 @@ function fillContactsList(){
 			}
 			//alert("Listview completed");
 			$("#contacts").listview('refresh');
-			$("#teilnehmerSelectlist").listview('refresh');
+			$("#teilnehmerSelectlist").selectmenu('refresh',true);
 	});
 }
 
