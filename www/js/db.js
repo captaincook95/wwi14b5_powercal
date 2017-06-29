@@ -34,6 +34,7 @@ function createContact(){
 		}
 		function successCB(){
 			alert("Kontakt angelegt");
+			fillContactsList();
 			location.href="#contacts_overview";
 		}
 }
