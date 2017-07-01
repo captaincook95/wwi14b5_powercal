@@ -5,13 +5,24 @@ function startApp() {
 	openDB();
 	fillContactsList();
 	$("#newContact").on('click', function(){
-			 createContact();
-        }
-    );
+		processContact();
+	});
 	$("#addTeilnehmer").on('click', function(){
-		 addTeilnehmer();
-   }
-);
+		addTeilnehmer();
+	});
+	$(document).on('click','#contacts a', function(){
+		fillContactForm(this);
+	});
+	$(document).on('click','#newContactForm', function(){
+		clearContactForm();
+		$("#deleteContact").hide();
+	});
+	$("#deleteContact").on('click', function(){
+		if (confirm("Wollen sie den Kontakt " + $('#kontakt_name').val() + ", " + $('#kontakt_vorname').val() + " wirklich löschen?") == true){
+			deleteContact($('#k_id').val());
+		}
+	});
+	
 }
 
 function fillContactsList(){
@@ -37,4 +48,37 @@ function addTeilnehmer(){
 	var kid = $("#teilnehmerSelectlist").attr("data-kid");
 	$("#aktiveTeilnehmer").append("<li>" + tl_name + "</li>");
 	$("#teilnehmerSelectlist").remove($("#teilnehmerSelectlist").selectedIndex);
+}
+
+function fillContactForm(contact){
+	clearContactForm();
+	var contact_id = $(contact).attr('data-kid')
+	getContactDetails(contact_id,function(tx,results){
+		var row = results.rows.item(0); //Es kann immer nur eine Zeile zurückkommen, da ID unique ist
+		$('#kontakt_name').val(row['NACHNAME']);
+		$('#kontakt_vorname').val(row['VORNAME']);
+		$('#kontakt_telnr').val(row['TELNR']);
+		$('#kontakt_email').val(row['EMAIL']);
+		$('#kontakt_bemerkung').val(row['BEMERKUNG']);
+		$('#k_id').val(contact_id);
+		$("#deleteContact").show();
+	});
+}
+
+function processContact(){
+	var contact_id = $('#k_id').val();
+	if (contact_id === ""){
+		createContact();
+	} else {
+		updateContact(contact_id);
+	}
+}
+
+function clearContactForm(){
+	$('#kontakt_name').val('');
+	$('#kontakt_vorname').val('');
+	$('#kontakt_telnr').val('');
+	$('#kontakt_email').val('');
+	$('#kontakt_bemerkung').val('');
+	$('#k_id').val('');
 }

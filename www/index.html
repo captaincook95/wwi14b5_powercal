@@ -88,7 +88,7 @@
 					<ul data-role="listview" data-inset="true" data-sort="true" id="contacts">
 					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
 					</ul>
-					<a data-role="button" href="#contact_details">Neuer Kontakt</a>
+					<a data-role="button" href="#contact_details" id="newContactForm">Neuer Kontakt</a>
 				</div>
 			</div>
 			<div data-role="page" id="contact_details">
@@ -100,7 +100,7 @@
 					<input id="k_id" type="hidden">
 					<label>Name</label>
 					<input id="kontakt_name" type="text" required="required">
-					<label>Vorame</label>
+					<label>Vorname</label>
 					<input id="kontakt_vorname" type="text" required="required">
 					<label>Telefonnummer</label>
 					<input id="kontakt_telnr" type="number">
@@ -108,7 +108,8 @@
 					<input id="kontakt_email" type="text">
 					<label>Bemerkung</label>
 					<textarea id="kontakt_bemerkung" type="text" rows="5"></textarea>
-					<a data-role="button" id="newContact">Kontakt anlegen</a>
+					<a data-role="button" id="newContact">Speichern</a>
+					<a data-role="button" id="deleteContact">L&ouml;schen</a>
 				</div>
 			</div>
     </body>
