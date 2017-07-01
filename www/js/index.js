@@ -5,9 +5,24 @@ function startApp() {
 	openDB();
 	fillContactsList();
 	fillPlacesList();
+	fillAppointmentsList();
 	$("#newContact").on('click', function(){
 		processContact();
 	});
+	
+	$("#newAppointment").on('click', function(){
+			 createAppointment();
+        }
+    ); 
+	
+	$("#t_start").on('click', function(){
+		calendar($("#t_start"));
+	});
+	
+	$("#t_end").on('click', function(){
+		calendar($("#t_end"));
+	});
+	
 	$("#addTeilnehmer").on('click', function(){
 		addTeilnehmer();
 	});
@@ -168,4 +183,45 @@ function processPlace(){
 	} else {
 		update_place(place_id);
 	}
+}
+
+function fillAppointmentsList(){
+	getAppointments(function(tx, results){
+		//alert(results.rows.length);
+			$("#appointments").empty();
+				for (var i = 0; i < results.rows.length; i++){
+					//alert("Row: " + i);
+					var row = results.rows.item(i);
+				//alert("Kontakt gefunden: " + row['NACHNAME'] + ', ' + row['VORNAME'] + ', kid = ' + row['kid']);
+					$("#appointments").append('<li><a href="#selectedAppointment" data-kid="' + row['kid'] + '">' + row['ANFANG'] + '</a>');
+				$("#teilnehmerSelectlist").add('<option data-kid="' + row['kid'] + '">' + ', ' + row['TITEL'] +  row['BEMERKUNG'] + '</option>');
+			}
+			//alert("Listview completed");
+			$("#contacts").listview('refresh');
+			$("#teilnehmerSelectlist").listview('refresh');
+
+	});
+}
+
+function calendar(control) {
+
+  //alert("test")
+
+  var options = {
+    date: new Date(),
+    mode: 'datetime'
+  };
+  
+  function onSuccess(date) {
+    alert('Selected date: ' + date);
+	var time = date.getHours() + ':' + date.getMinutes();
+	var day = date.getDay() +'.' + date.getMonth() + '.' + date.getFullYear();
+	control.val(day + ' ' + time);
+  }	
+
+  function onError(error) { // Android only
+    //alert('Error: ' + error);
+  }
+
+  datePicker.show(options, onSuccess, onError);
 }

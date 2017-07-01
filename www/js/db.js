@@ -177,3 +177,36 @@ function deletePlace(oid){
 		location.href="#places_overview";
 	}
 }
+
+function createAppointment(){
+		var ttitel = $("#t_titel").val();
+		var tplace = $("#t_place").val();
+		var tstart = $("#t_start").val();
+		var tend = $("#t_end").val();
+		var bem = $("#t_note").val();
+		//alert(vname+nname+telnr+email+bem);
+		db.transaction(newAppointment, errorCB, successCB);
+		function newAppointment(tx){
+			tx.executeSql("INSERT INTO TERMIN (ANFANG,ENDE,TITEL,BESCHREIBUB) VALUES (?,?,?,?)",[tstart,tend,ttitel,bem]);
+		}
+		function errorCB(err){
+			alert(err.code+ ' ' +  err.message);
+		}
+		function successCB(){
+			alert("Termin erstellt");
+			fillAppointmentsList();
+			location.href="#index";
+		}
+}
+
+function getAppointments(callback){
+	db.transaction(function(tx){
+		tx.executeSql("SELECT * FROM TERMIN ORDER BY ANFANG",[],callback);
+	},errorCB,successCB);
+	function errorCB(err){
+		//alert(err.code+ ' ' +  err.message);
+		//Hier wird noch n Fehler geschmissen, keine Ahnung warum. Die Liste kommt korrekt zurück
+	}
+	function successCB(){
+	}
+}

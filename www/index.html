@@ -30,6 +30,7 @@
 		<script type="text/javascript" src="js/db.js"></script>
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+
         <title>Hello World</title>
     </head>
     <body>
@@ -43,6 +44,9 @@
 	<!-- 				<a data-role="button" data-transition="none" class="ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left"  href="#new_appointment">Neuer Termin</a>
 					<a data-role="button" data-icon="user" href="#contacts_overview">Kontakte</a> -->
 					<p> Hier werden die Termine angezeigt. </p>
+					<ul data-role="listview" data-inset="true" data-sort="true" id="appointments">
+					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
+					</ul>														  
 				</div>
 				<div data-role="footer" data-position="fixed">
 					<div data-role="navbar">
@@ -76,8 +80,10 @@
 					<ul data-role="listview" id="aktiveTeilnehmer"></ul>					
 					<label for="t_file">Anhang: </label>
 					<input name="t_file" id="t_file" type="file">
+					<!-- !!! Unterlagen einfügen, Logik implementieren  -->										 
 					<label for="t_note">Bemerkung: </label>
 					<textarea name="t_note" id="t_note"" type="text" rows="5"></textarea>
+					<a data-role="button" id="newAppointment">Termin erstellen</a>											   
 				</div>
 			</div>
 			<div data-role="page" id="contacts_overview">
