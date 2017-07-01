@@ -96,10 +96,84 @@ function getContactDetails(kid,callback){
 	function successCB(){
 	}
 }
+
+function getPlaces(callback){
+	db.transaction(function(tx){
+		tx.executeSql("SELECT * FROM ORT ORDER BY BEZEICHNUNG",[],callback);
+	},errorCB,successCB);
+	function errorCB(err){
+	}
+	function successCB(){
+	}
+}
 	
+function createPlace(){
+	var bezeichnung = $('#ort_bezeichnung').val();
+	var strasse = $('#ort_strasse').val();
+	var hausnummer = $('#ort_hausnummer').val();
+	var stadt = $('#ort_name').val();
+	var plz = $('#ort_plz').val();
+	var land = $('#ort_land').val();
+	db.transaction(newPlace, errorCB, successCB);
+	function newPlace(tx){
+		tx.executeSql("INSERT INTO ORT (BEZEICHNUNG,STRASSE,HAUSNUMMER,STADT,PLZ,LAND) VALUES " +
+				"(?,?,?,?,?,?)",[bezeichnung,strasse,hausnummer,stadt,plz,land]);
+	}
+	function errorCB(err){
+		alert(err.code+ ' ' +  err.message);
+	}
+	function successCB(){
+		alert("Ort gespeichert");
+		fillPlacesList();
+		location.href="#places_overview";
+	}
+}	
 	
+function getPlaceDetails(oid,callback){
+	db.transaction(function(tx){
+		tx.executeSql("SELECT * FROM ORT WHERE oid = ?",[oid],callback);
+	},errorCB,successCB);
+	function errorCB(err){
+	}
+	function successCB(){
+	}
+}	
 	
-	
-	
-	
-	
+function updatePlace(oid){
+	var bezeichnung = $('#ort_bezeichnung').val();
+	var strasse = $('#ort_strasse').val();
+	var hausnummer = $('#ort_hausnummer').val();
+	var stadt = $('#ort_name').val();
+	var plz = $('#ort_plz').val();
+	var land = $('#ort_land').val();
+	db.transaction(updateOrt, errorCB, successCB);
+	function updateOrt(tx){
+		tx.executeSql("UPDATE ORT SET " +
+				"BEZEICHNUNG = ?, STRASSE = ?, HAUSNUMMER = ?, STADT = ? , PLZ = ?, LAND = ? " +
+				"WHERE oid = ?",[bezeichnung,strasse,hausnummer,stadt,plz,land,oid]);
+	}
+	function errorCB(err){
+		alert(err.code+ ' ' +  err.message);
+	}
+	function successCB(){
+		alert("Ort aktualisiert");
+		fillPlacesList();
+		location.href="#Places_overview";
+	}
+}	
+
+function deletePlace(oid){
+	db.transaction(delPlace, errorCB, successCB);
+	function delPlace(tx){
+		tx.executeSql("DELETE FROM ORT " +
+				"WHERE oid = ?",[oid]);
+	}
+	function errorCB(err){
+		alert(err.code+ ' ' +  err.message);
+	}
+	function successCB(){
+		alert("Ort gelöscht");
+		fillPlacesList();
+		location.href="#places_overview";
+	}
+}

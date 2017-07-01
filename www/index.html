@@ -63,7 +63,9 @@
 					<label for="t_titel">Titel</label>
 					<input name="t_titel" id="t_titel" type="text" required="required">
 					<label for="t_place">Ort</label>
-					<input name="t_place" id="t_place" type="text" required="required">
+					<input name="place_name" id="place_name" type="text">
+					<input name="place_id" id="place_id" type="hidden">
+					<a data-role="button" id="t_place" href="#places_overview">Adresse &auml;ndern</a>
 					<label for="t_start">Beginn: </label>
 					<input name="t_start" id="t_start" type="text" required="required">
 					<label for="t_end">Ende: </label>
@@ -80,7 +82,7 @@
 			</div>
 			<div data-role="page" id="contacts_overview">
 				<div data-role="header">
-					<a data-icon="carat-l" data-iconpos="notext" data-rel="back"></a>
+					<a data-icon="carat-l" data-iconpos="notext" href="#index"></a>
 					<h1>Kontakte</h1>
 				</div>
 				<div role="main" class="ui-content" >
@@ -111,6 +113,43 @@
 					<a data-role="button" id="newContact">Speichern</a>
 					<a data-role="button" id="importContact">Aus Kontakten einlesen</a>
 					<a data-role="button" id="deleteContact">L&ouml;schen</a>
+				</div>
+			</div>
+			<div data-role="page" id="places_overview">
+				<div data-role="header">
+					<a data-icon="carat-l" data-iconpos="notext" data-rel="back"></a>
+					<h1>Orte</h1>
+				</div>
+				<div role="main" class="ui-content" >
+					Hier k&ouml;nnen Orte ausgew&auml;hlt und verwaltet werden<br>
+					Zum Bearbeiten &uuml;ber einen Kontakt nach rechts wischen
+					<ul data-role="listview" data-inset="true" data-sort="true" id="places">
+					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
+					</ul>
+					<a data-role="button" href="#place_details" id="newPlaceForm">Neuer Ort</a>
+				</div>
+			</div>
+			<div data-role="page" id="place_details">
+				<div data-role="header">
+					<a data-icon="carat-l" data-iconpos="notext" data-rel="back"></a>
+					<h1>Ort bearbeiten/erstellen</h1>
+				</div>
+				<div role="main" class="ui-content">
+					<input id="o_id" type="hidden">
+					<label>Bezeichnung</label>
+					<input id="ort_bezeichnung" type="text" required="required">
+					<label>Stra&szlig;e</label>
+					<input id="ort_strasse" type="text" required="required">
+					<label>Hausnummer</label>
+					<input id="ort_hausnummer" type="text">
+					<label>Ort</label>
+					<input id="ort_name" type="text">
+					<label>Postleitzahl</label>
+					<input id="ort_plz" type="number">
+					<label>Land</label>
+					<input id="ort_land" type="text">
+					<a data-role="button" id="savePlace">Speichern</a>
+					<a data-role="button" id="deletePlace">L&ouml;schen</a>
 				</div>
 			</div>
     </body>

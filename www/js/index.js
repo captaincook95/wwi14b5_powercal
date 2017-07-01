@@ -4,6 +4,7 @@ function startApp() {
 	//alert("deviceReady");
 	openDB();
 	fillContactsList();
+	fillPlacesList();
 	$("#newContact").on('click', function(){
 		processContact();
 	});
@@ -19,13 +20,35 @@ function startApp() {
 		$("#deleteContact").hide();
 		$("#importContact").show();
 	});
+	$(document).on('swiperight','#places a', function(){
+		$("#deletePlace").show();
+		fillPlaceForm(this);
+		location.href="#place_details";
+	});
+	$(document).on('click','#places a', function(){
+		$('#place_name').val($(this).attr('data-bez'));
+		$('#place_id').val($(this).attr('data-oid'));
+		location.href="#new_appointment";
+	});
 	$("#deleteContact").on('click', function(){
-		if (confirm("Wollen sie den Kontakt " + $('#kontakt_name').val() + ", " + $('#kontakt_vorname').val() + " wirklich löschen?") == true){
+		if (confirm("Wollen Sie den Kontakt " + $('#kontakt_name').val() + ", " + $('#kontakt_vorname').val() + " wirklich löschen?") == true){
 			deleteContact($('#k_id').val());
 		}
 	});
 	$("#importContact").on('click', function(){
 		importContact();
+	});
+	$("#savePlace").on('click', function(){
+		processPlace();
+	});
+	$("#newPlaceForm").on('click', function(){
+		clearPlaceForm();
+		$('#deletePlace').hide();
+	});
+	$("#deletePlace").on('click', function(){
+		if (confirm("Wollen Sie den Ort " + $('#ort_bezeichnung').val()  + " wirklich löschen?") == true){
+			deletePlace($('#o_id').val());
+		}
 	});
 }
 
@@ -38,7 +61,7 @@ function fillContactsList(){
 				//alert("Row: " + i);
 				var row = results.rows.item(i);
 				//alert("Kontakt gefunden: " + row['NACHNAME'] + ', ' + row['VORNAME'] + ', kid = ' + row['kid']);
-				$("#contacts").append('<li><a href="#contact_details" data-kid="' + row['kid'] + '">' + row['NACHNAME'] + ', ' + row['VORNAME'] + '</a>');
+				$("#contacts").append('<li><a href="#contact_details" data-kid="' + row['kid'] + '">' + row['NACHNAME'] + ', ' + row['VORNAME'] + '</a></li>');
 				$("#teilnehmerSelectlist").add('<option data-kid="' + row['kid'] + '">' + row['NACHNAME'] + ', ' + row['VORNAME'] + '</option>');
 			}
 			//alert("Listview completed");
@@ -88,7 +111,7 @@ function importContact(){
 		$('#kontakt_email').val(json.emails[0].value);
 		$('#kontakt_bemerkung').val(json.note);      
     },function(err){
-        alter.log('Fehler beim Abrufen des Kontakt. Stellen Sie sicher, dass diese App Zugriff auf Ihre Kontakte hat.');
+        alert('Fehler beim Abrufen des Kontakt. Stellen Sie sicher, dass diese App Zugriff auf Ihre Kontakte hat.');
     });
 }
 
@@ -99,4 +122,50 @@ function clearContactForm(){
 	$('#kontakt_email').val('');
 	$('#kontakt_bemerkung').val('');
 	$('#k_id').val('');
+}
+
+function fillPlacesList(){
+	getPlaces(function(tx, results){
+			$("#places").empty();
+			for (var i = 0; i < results.rows.length; i++){
+				var row = results.rows.item(i);
+				$("#places").append('<li> <a href="#" data-oid="' + row['oid'] + '" data-bez="' + row['BEZEICHNUNG'] +  '">' + row['BEZEICHNUNG'] + '</a></li>');
+			}
+			$("#places").listview('refresh');
+	});
+}
+
+function fillPlaceForm(place){
+	clearPlaceForm();
+	var place_id = $(place).attr('data-oid')
+	getPlaceDetails(place_id,function(tx,results){
+		var row = results.rows.item(0); //Es kann immer nur eine Zeile zurückkommen, da ID unique ist
+		$('#ort_bezeichnung').val(row['BEZEICHNUNG']);
+		$('#ort_strasse').val(row['STRASSE']);
+		$('#ort_hausnummer').val(row['HAUSNUMMER']);
+		$('#ort_name').val(row['STADT']);
+		$('#ort_plz').val(row['PLZ']);
+		$('#ort_land').val(row['LAND']);
+		$('#o_id').val(place_id);
+		$("#deletePlace").show();
+	});
+}
+
+function clearPlaceForm(){
+	$('#ort_bezeichnung').val('');
+	$('#ort_strasse').val('');
+	$('#ort_hausnummer').val('');
+	$('#ort_name').val('');
+	$('#ort_plz').val('');
+	$('#ort_land').val('');
+	$('#o_id').val('');
+}
+
+function processPlace(){
+	var place_id = $('#o_id').val();
+	if (place_id === ""){
+		createPlace();
+	} else {
+		update_place(place_id);
+	}
 }
