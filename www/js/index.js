@@ -11,18 +11,22 @@ function startApp() {
 		addTeilnehmer();
 	});
 	$(document).on('click','#contacts a', function(){
+		$("#importContact").hide();
 		fillContactForm(this);
 	});
 	$(document).on('click','#newContactForm', function(){
 		clearContactForm();
 		$("#deleteContact").hide();
+		$("#importContact").show();
 	});
 	$("#deleteContact").on('click', function(){
 		if (confirm("Wollen sie den Kontakt " + $('#kontakt_name').val() + ", " + $('#kontakt_vorname').val() + " wirklich löschen?") == true){
 			deleteContact($('#k_id').val());
 		}
 	});
-	
+	$("#importContact").on('click', function(){
+		importContact();
+	});
 }
 
 function fillContactsList(){
@@ -72,6 +76,20 @@ function processContact(){
 	} else {
 		updateContact(contact_id);
 	}
+}
+
+function importContact(){
+	clearContactForm();
+	navigator.contacts.pickContact(function(contact){
+        var json = JSON.parse(JSON.stringify(contact));
+        $('#kontakt_name').val(json.name.familyName);
+		$('#kontakt_vorname').val(json.name.givenName);
+		$('#kontakt_telnr').val(json.phoneNumbers[0].value);
+		$('#kontakt_email').val(json.emails[0].value);
+		$('#kontakt_bemerkung').val(json.note);      
+    },function(err){
+        alter.log('Fehler beim Abrufen des Kontakt. Stellen Sie sicher, dass diese App Zugriff auf Ihre Kontakte hat.');
+    });
 }
 
 function clearContactForm(){
