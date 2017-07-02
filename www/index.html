@@ -66,10 +66,15 @@
 					<input id="t_id" type="hidden">
 					<label for="t_titel">Titel</label>
 					<input name="t_titel" id="t_titel" type="text" required="required">
-					<label for="t_place">Ort</label>
-					<input name="place_name" id="place_name" type="text">
+					<!-- <label for="t_place" type="hidden">Ort</label> -->
+					<!-- <input name="place_name" id="place_name" type="text" type="hidden" readonly> -->
+					<!-- <input name="place_id" id="place_id" type="hidden"> -->
+					<a data-role="button" id="t_place" href="#places_overview">Adresse ausw&auml;hlen</a>
+					<div data-role="fieldcontain">
+						<label for="t_place">Ort: </label>
+						<input name="place_name" id="place_name" type="text" type="hidden" readonly>
+					</div>
 					<input name="place_id" id="place_id" type="hidden">
-					<a data-role="button" id="t_place" href="#places_overview">Adresse &auml;ndern</a>
 					<label for="t_start">Beginn: </label>
 					<input name="t_start" id="t_start" type="text" required="required">
 					<label for="t_end">Ende: </label>

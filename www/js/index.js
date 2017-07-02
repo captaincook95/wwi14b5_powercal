@@ -42,6 +42,7 @@ function startApp() {
 	});
 	$(document).on('click','#places a', function(){
 		$('#place_name').val($(this).attr('data-bez'));
+		$('#place_name').show();
 		$('#place_id').val($(this).attr('data-oid'));
 		location.href="#new_appointment";
 	});
