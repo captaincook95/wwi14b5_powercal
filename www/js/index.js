@@ -26,7 +26,21 @@ function startApp() {
 	$("#addTeilnehmer").on('click', function(){
 		addTeilnehmer();
 	});
+
+
+	// $("document").on("pagecontainerbeforeshow", function(event, ui){
+	// 	alert("PAGEBEFORESHOW");
+	// 	alert(ui);
+	// });
+
+	// Contacts
 	$(document).on('click','#contacts a', function(){
+		alert('ADD CONTACT TO LIST');
+		// $("#importContact").hide();
+		addTeilnehmer(this);
+		location.href="#new_appointment";
+	});	
+	$(document).on('swiperight','#contacts a', function(){
 		$("#importContact").hide();
 		fillContactForm(this);
 	});
@@ -35,6 +49,8 @@ function startApp() {
 		$("#deleteContact").hide();
 		$("#importContact").show();
 	});
+
+	// Places
 	$(document).on('swiperight','#places a', function(){
 		$("#deletePlace").show();
 		fillPlaceForm(this);
@@ -86,11 +102,13 @@ function fillContactsList(){
 	});
 }
 
-function addTeilnehmer(){
-	var tl_name = $("#teilnehmerSelectlist").val();
-	var kid = $("#teilnehmerSelectlist").attr("data-kid");
-	$("#aktiveTeilnehmer").append("<li>" + tl_name + "</li>");
-	$("#teilnehmerSelectlist").remove($("#teilnehmerSelectlist").selectedIndex);
+function addTeilnehmer(contact){
+	alert("ADD TEILNEHMER");
+	// Beispiel, dynamisches Einfuegen
+	// var contactLabel = $(contact).attr('VORNAME') + " " + $(contact).attr('NACHNAME');
+	var contactLabel = $(contact).attr('data-kid');
+	$("#aktiveTeilnehmer").append("<li>" + contactLabel + "</li>");
+	$("#aktiveTeilnehmer").listview("refresh");
 }
 
 function fillContactForm(contact){

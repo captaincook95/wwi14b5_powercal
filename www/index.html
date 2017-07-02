@@ -64,30 +64,32 @@
 				</div>
 				<div role="main" class="ui-content">
 					<input id="t_id" type="hidden">
+					
 					<label for="t_titel">Titel</label>
 					<input name="t_titel" id="t_titel" type="text" required="required">
-					<!-- <label for="t_place" type="hidden">Ort</label> -->
-					<!-- <input name="place_name" id="place_name" type="text" type="hidden" readonly> -->
-					<!-- <input name="place_id" id="place_id" type="hidden"> -->
+					
 					<a data-role="button" id="t_place" href="#places_overview">Adresse ausw&auml;hlen</a>
-					<div data-role="fieldcontain">
-						<label for="t_place">Ort: </label>
-						<input name="place_name" id="place_name" type="text" type="hidden" readonly>
-					</div>
+					<label for="place_name">Ort: </label>
+					<input name="place_name" id="place_name" type="text" readonly>
 					<input name="place_id" id="place_id" type="hidden">
+					
 					<label for="t_start">Beginn: </label>
 					<input name="t_start" id="t_start" type="text" required="required">
 					<label for="t_end">Ende: </label>
 					<input name="t_end" id="t_end" type="text" required="required">
-					<label for="teilnehmerSelectlist">Teilnehmer hinzuf&uuml;gen</label>
-					<select id="teilnehmerSelectlist"></select>
-					<a data-role="button" id="addTeilnehmer">Hinzuf&uuml;gen</a>
-					<ul data-role="listview" id="aktiveTeilnehmer"></ul>					
+					
+					<label for="teilnehmerSelectlist">Teilnehmer: </label>
+					<!-- <select id="teilnehmerSelectlist"></select> -->
+					<a data-role="button" id="addTeilnehmer" href="#contacts_overview">Hinzuf&uuml;gen</a>
+					<ul data-role="listview" id="aktiveTeilnehmer" data-inset="true"></ul>
+					
 					<label for="t_file">Anhang: </label>
 					<input name="t_file" id="t_file" type="file">
-					<!-- !!! Unterlagen einfügen, Logik implementieren  -->										 
+					<!-- !!! Unterlagen einfügen, Logik implementieren  -->			
+					
 					<label for="t_note">Bemerkung: </label>
 					<textarea name="t_note" id="t_note"" type="text" rows="5"></textarea>
+					
 					<a data-role="button" id="newAppointment">Termin erstellen</a>											   
 				</div>
 			</div>
