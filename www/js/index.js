@@ -14,7 +14,8 @@ function startApp() {
 	});
 	
 	$("#newAppointment").on('click', function(){
-			 createAppointment();
+			 processAppointment();
+			 //createAppointment();
         }
     ); 
 	
@@ -58,12 +59,14 @@ function startApp() {
 			fillContactForm(this);
 			location.href="#contact_details";
 		}
-	});	
+	});
+
 	$(document).on('swiperight','#contacts a', function(){
 		$("#importContact").hide();
 		fillContactForm(this);
 		location.href="#contact_details";
 	});
+
 	$(document).on('click','#newContactForm', function(){
 		clearContactForm();
 		$("#deleteContact").hide();
@@ -76,27 +79,33 @@ function startApp() {
 		fillPlaceForm(this);
 		location.href="#place_details";
 	});
+
 	$(document).on('click','#places a', function(){
 		$('#place_name').val($(this).attr('data-bez'));
 		$('#place_name').show();
 		$('#place_id').val($(this).attr('data-oid'));
 		location.href="#new_appointment";
 	});
+
 	$("#deleteContact").on('click', function(){
 		if (confirm("Wollen Sie den Kontakt " + $('#kontakt_name').val() + ", " + $('#kontakt_vorname').val() + " wirklich löschen?") == true){
 			deleteContact($('#k_id').val());
 		}
 	});
+
 	$("#importContact").on('click', function(){
 		importContact();
 	});
+
 	$("#savePlace").on('click', function(){
 		processPlace();
 	});
+
 	$("#newPlaceForm").on('click', function(){
 		clearPlaceForm();
 		$('#deletePlace').hide();
 	});
+
 	$("#deletePlace").on('click', function(){
 		if (confirm("Wollen Sie den Ort " + $('#ort_bezeichnung').val()  + " wirklich löschen?") == true){
 			deletePlace($('#o_id').val());
@@ -234,6 +243,27 @@ function fillAppointmentsList(){
 			$("#appointments").listview('refresh');
 	});
 }
+
+function clearAppointmantForm(){
+	$('#t_titel').val('');
+	$('#place_name').val('');
+	$('#t_start').val('');
+	$('#t_end').val('');
+	$('#aktiveTeilnehmer').empty();
+	$('#t_file').val('');
+	$('#t_note').val('');
+}
+
+function processAppointment(){
+	var t_id = $('#t_id').val();
+	if (t_id === ""){
+		createAppointment();
+	} else {
+		updateAppointment(t_id);
+	}
+}
+
+
 
 function calendar(control) {
 

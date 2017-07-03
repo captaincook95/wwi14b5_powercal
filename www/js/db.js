@@ -178,11 +178,14 @@ function deletePlace(oid){
 	}
 }
 
+
+//Not emplemented yet
 function createAppointment(){
 		var ttitel = $("#t_titel").val();
 		var tplace = $("#t_place").val();
 		var tstart = $("#t_start").val();
 		var tend = $("#t_end").val();
+		var tfile = $('t_file').val();
 		var bem = $("#t_note").val();
 		//alert(vname+nname+telnr+email+bem);
 		db.transaction(newAppointment, errorCB, successCB);
@@ -198,6 +201,33 @@ function createAppointment(){
 			location.href="#index";
 		}
 }
+
+//to be done
+function updateAppointment(){
+		var ttitel = $("#t_titel").val();
+		var tplace = $("#t_place").val();
+		var tstart = $("#t_start").val();
+		var tend = $("#t_end").val();
+		var bem = $("#t_note").val();
+		//alert(vname+nname+telnr+email+bem);
+		db.transaction(updAppointment, errorCB, successCB);
+		function updAppointment(tx){
+			tx.executeSql("UPDATE TERMIN SET "+ 
+		}
+tx.executeSql("UPDATE ORT SET " +
+				"BEZEICHNUNG = ?, STRASSE = ?, HAUSNUMMER = ?, STADT = ? , PLZ = ?, LAND = ? " +
+				"WHERE oid = ?",[bezeichnung,strasse,hausnummer,stadt,plz,land,oid]);
+
+		function errorCB(err){
+			alert(err.code+ ' ' +  err.message);
+		}
+		function successCB(){
+			alert("Termin erstellt");
+			fillAppointmentsList();
+			location.href="#index";
+		}
+}
+
 
 function getAppointments(callback){
 	db.transaction(function(tx){
