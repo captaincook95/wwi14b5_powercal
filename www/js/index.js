@@ -1,4 +1,4 @@
-var LastPage = null;
+var ContactsOverviewSelectMode = false;
 
 document.addEventListener('deviceready', startApp, false);
 
@@ -32,17 +32,24 @@ function startApp() {
 
 
 	$(document).on("pagecontainerbeforeshow", function(event, ui){
-		// alert("PAGEBEFORESHOW");
-		// alert("LastPage: " + LastPage);
-		LastPage = ui.prevPage[0].id;
-		// alert("LastPage: " + LastPage);
+		
+		if (ui.prevPage[0].id == $("#new_appointment").prop("id")
+		 && ui.toPage[0].id == $("#contacts_overview").prop("id")) {
+			// alert("Enter select mode");
+			ContactsOverviewSelectMode = true;
+		}
+		else if (ui.prevPage[0].id == $("#contacts_overview").prop("id")
+		 && (ui.toPage[0].id == $("#new_appointment").prop("id") 
+		 	|| ui.toPage[0].id == $("#index").prop("id"))) {
+			// alert("Leave select mode");
+			ContactsOverviewSelectMode = false;
+		}
 	});
 
 	// Contacts
 	$(document).on('click','#contacts a', function(){
-		// alert('ON CONTACT CLICK');
-
-		if (LastPage == $("#new_appointment").prop("id")) {
+		// alert("Select mode: " + ContactsOverviewSelectMode);
+		if (ContactsOverviewSelectMode) {
 			addTeilnehmer(this);
 			location.href="#new_appointment";
 		} 
