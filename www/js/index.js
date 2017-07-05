@@ -1,5 +1,5 @@
 var ContactsOverviewSelectMode = false;
-var PlacesOverviewSelectMode = false;
+var PlacesOverviewUpdateMode = false;
 
 document.addEventListener('deviceready', startApp, false);
 
@@ -12,14 +12,23 @@ function startApp() {
 	$(document).on("pagecontainerbeforeshow", function(event, ui) {
 		if (ui.prevPage[0].id == $("#new_appointment").prop("id")
 		 && ui.toPage[0].id == $("#contacts_overview").prop("id")) {
-			// alert("Enter select mode");
 			ContactsOverviewSelectMode = true;
 		}
 		else if (ui.prevPage[0].id == $("#contacts_overview").prop("id")
 		 && (ui.toPage[0].id == $("#new_appointment").prop("id") 
 		 	|| ui.toPage[0].id == $("#index").prop("id"))) {
-			// alert("Leave select mode");
 			ContactsOverviewSelectMode = false;
+		}
+
+
+		if (ui.prevPage[0].id == $("#appointment_details").prop("id")
+		 && ui.toPage[0].id == $("#places_overview").prop("id")) {
+			PlacesOverviewUpdateMode = true;
+		}
+		else if (ui.prevPage[0].id == $("#places_overview").prop("id")
+		 && (ui.toPage[0].id == $("#appointment_details").prop("id") 
+		 	|| ui.toPage[0].id == $("#index").prop("id"))) {
+			PlacesOverviewUpdateMode = false;
 		}
 	});
 
@@ -70,10 +79,15 @@ function startApp() {
 	});
 
 	$(document).on('click', '#places a', function() {
-		$('#place_name').val($(this).attr('data-bez'));
-		$('#place_name').show();
-		$('#place_id').val($(this).attr('data-oid'));
-		location.href="#new_appointment";
+		if (PlacesOverviewUpdateMode) {
+			$('#place_d').val($(this).attr('data-bez'));
+			$('#place_id_d').val($(this).attr('data-oid'));
+			location.href="#appointment_details";
+		} else {
+			$('#place_name').val($(this).attr('data-bez'));
+			$('#place_id').val($(this).attr('data-oid'));
+			location.href="#new_appointment";
+		}
 	});
 
 	$("#deleteContact").on('click', function(){
@@ -130,6 +144,14 @@ function startApp() {
 		}
 	});	
 	
+	$('#place_name').on('click', function(){
+		location.href = '#places_overview';
+	});
+
+	$('#place_d').on('click', function(){
+		location.href = '#places_overview';
+	});
+
 	$("#t_start").on('click', function(){
 		calendar($("#t_start"));
 	});
@@ -207,7 +229,7 @@ function fillDetailsAppointmentForm(appointment) {
 		getPlaceDetails(oid,function(tx,results){
 			var row = results.rows.item(0); //Es kann immer nur eine Zeile zurückkommen, da ID unique ist
 			$('#place_d').val(row['BEZEICHNUNG']);
-			$('#place_id').val(oid);
+			$('#place_id_d').val(oid);
 		});		
 	});
 

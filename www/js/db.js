@@ -211,19 +211,19 @@ function createAppointment(){
 			location.href="#index";
 		}
 }
-/*
-//to be done
+
 function updateAppointment(tid){
-	var ttitel = $("#t_titel").val();
-	var tiod = $("#place_id").val();
-	var tstart = $("#t_start").val();
-	var tend = $("#t_end").val();
-	var bem = $("#t_note").val();
+	var ttitel = $("#titel_d").val();
+	var toid = $("#place_id_d").val();
+	var tstart = $("#start_d").val();
+	var tend = $("#end_d").val();
+	var bem = $("#note_d").val();
+
 	db.transaction(updAppointment, errorCB, successCB);
 	function updAppointment(tx){
 		tx.executeSql("UPDATE TERMIN SET " + 
 			"TITEL = ?, ANFANG = ?, ENDE = ?, BESCHREIBUB = ?, OID = ? " +
-			"WHERE tid = ?", [ttitel,tstart,tend,bem,toid]);
+			"WHERE tid = ?", [ttitel,tstart,tend,bem,toid,tid]);
 	}
 
 	function errorCB(err){
@@ -256,7 +256,6 @@ function deleteAppointment(tid){
 		location.href="#index";
 	}
 }
-*/
 
 function getAppointments(callback){
 	db.transaction(function(tx){
