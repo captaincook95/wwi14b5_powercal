@@ -30,7 +30,10 @@
 		<script type="text/javascript" src="js/db.js"></script>
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
-
+		<script type="text/javascript" src="js/validate.js"></script>
+		<script type="text/javascript" src="js/places.js"></script>
+		<script type="text/javascript" src="js/contacts.js"></script>
+	
         <title>Hello World</title>
     </head>
     <body>
@@ -163,17 +166,19 @@
 					<h1>Kontakt bearbeiten/erstellen</h1>
 				</div>
 				<div role="main" class="ui-content">
+				<form id="customer_details">
 					<input id="k_id" type="hidden">
-					<label>Name</label>
-					<input id="kontakt_name" type="text" required="required">
-					<label>Vorname</label>
-					<input id="kontakt_vorname" type="text" required="required">
+					<label for="kontakt_name">Name</label>
+					<input id="kontakt_name" name="Name" name="kontakt_name" type="text" required="required">
+					<label for="kontakt_vorname">Vorname</label>
+					<input id="kontakt_vorname" type="text" name="Vorname" required="required">
 					<label>Telefonnummer</label>
 					<input id="kontakt_telnr" type="text">
 					<label>Mailadresse</label>
 					<input id="kontakt_email" type="text">
 					<label>Bemerkung</label>
 					<textarea id="kontakt_bemerkung" rows="5"></textarea>
+				</form>
 					<a data-role="button" id="newContact">Speichern</a>
 					<a data-role="button" id="importContact">Aus Kontakten einlesen</a>
 					<a data-role="button" id="deleteContact">L&ouml;schen</a>
@@ -218,6 +223,7 @@
 					<input id="ort_land" type="text">
 					<a data-role="button" id="savePlace">Speichern</a>
 					<a data-role="button" id="deletePlace">L&ouml;schen</a>
+					<a data-role="button" id="openInMaps">In Google Maps &ouml;ffnen</a>
 				</div>
 			</div>
 

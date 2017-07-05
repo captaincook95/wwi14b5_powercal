@@ -211,7 +211,7 @@ function createAppointment(){
 			location.href="#index";
 		}
 }
-
+/*
 //to be done
 function updateAppointment(tid){
 	var ttitel = $("#t_titel").val();
@@ -256,7 +256,7 @@ function deleteAppointment(tid){
 		location.href="#index";
 	}
 }
-
+*/
 
 function getAppointments(callback){
 	db.transaction(function(tx){
