@@ -310,6 +310,14 @@ function fillAppointmentForm(appointment){
 		$('#end_d').val(row['ENDE']);
 		$('#note_d').val(row['BESCHREIBUB']);
 		$('#t_id').val(tid);
+
+		// Fill place
+		var oid = row['OID'];
+		getPlaceDetails(oid,function(tx,results){
+			var row = results.rows.item(0); //Es kann immer nur eine Zeile zurückkommen, da ID unique ist
+			$('#place_d').val(row['BEZEICHNUNG']);
+			$('#place_id').val(oid);
+		});		
 	});
 
 	// Fill contacts
