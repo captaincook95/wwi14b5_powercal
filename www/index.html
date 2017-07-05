@@ -34,6 +34,8 @@
         <title>Hello World</title>
     </head>
     <body>
+
+    		<!-- Page: index -->
             <div data-role="page" id="index">
 				<div data-role="header">
 					<a href="#home" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
@@ -44,7 +46,10 @@
 	<!-- 				<a data-role="button" data-transition="none" class="ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left"  href="#new_appointment">Neuer Termin</a>
 					<a data-role="button" data-icon="user" href="#contacts_overview">Kontakte</a> -->
 					<p> Hier werden die Termine angezeigt. </p>
-					<ul data-role="listview" data-inset="true" data-sort="true" id="appointments">
+					<form class="ui-filterable">
+      					<input id="myFilter" data-type="search">
+    				</form>
+					<ul data-role="listview" id="appointments" data-inset="true" data-sort="true" data-filter="true" data-input="#myFilter" data-autodividers="true" >
 					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
 					</ul>														  
 				</div>
@@ -52,11 +57,13 @@
 					<div data-role="navbar">
 						<ul>
 							<li><a href="#contacts_overview" data-icon="user">Kontakte</a></li>
-							<li><a href="#new_appointment" data-icon="plus">Neuer Termin</a></li>
+							<li><a href="#new_appointment" id="create_appointment_button" data-icon="plus">Neuer Termin</a></li>
 						</ul>
 					</div>
 				</div>
 			</div>
+
+			<!-- Page: new_appointment -->
 			<div data-role="page" id="new_appointment">
 				<div data-role="header">
 					<a data-icon="carat-l" data-iconpos="notext" data-rel="back"></a>
@@ -69,9 +76,15 @@
 					<input name="t_titel" id="t_titel" type="text" required="required">
 					
 					<a data-role="button" id="t_place" href="#places_overview">Adresse ausw&auml;hlen</a>
-					<label for="place_name">Ort: </label>
+					<!-- <div class="ui-field-contain"> -->
+    					<label for="place_name">Ort: </label>
+    					<input name="place_name" id="place_name" type="text">
+					<!-- </div> -->
+
+<!-- 					<label for="place_name">Ort: </label>
 					<input name="place_name" id="place_name" type="text" readonly>
-					<input name="place_id" id="place_id" type="hidden">
+ -->					
+ 					<input name="place_id" id="place_id" type="hidden">
 					
 					<label for="t_start">Beginn: </label>
 					<input name="t_start" id="t_start" type="text" required="required">
@@ -92,6 +105,43 @@
 					<a data-role="button" id="newAppointment">Termin erstellen</a>											   
 				</div>
 			</div>
+
+			<!-- Page: appointment_details -->
+			<div data-role="page" id="appointment_details">
+				<div data-role="header">
+					<a data-icon="carat-l" data-iconpos="notext" data-rel="back"></a>
+					<h1>Termin bearbeiten</h1>
+				</div>
+				<div role="main" class="ui-content">
+
+				<input id="t_id" type="hidden">
+				<label for="titel_d">Titel</label>
+				<input name="titel_d" id="titel_d" type="text" required="required">
+				
+
+				<label for="place_d">Ort: </label>
+				<input name="place_d" id="place_d" type="text" readonly>
+ 				<input name="place_id" id="place_id" type="hidden">
+ 				<a data-role="button" id="place_edit" href="#places_overview" >Adresse bearbeiten</a>
+
+
+ 				<label for="start_d">Beginn: </label>
+				<input name="start_d" id="start_d" type="text" required="required">
+				<label for="end_d">Ende: </label>
+				<input name="end_d" id="end_d" type="text" required="required">
+
+				<label for="teilnehmer_d">Teilnehmer: </label>
+				<ul data-role="listview" id="teilnehmer_d" data-inset="true"></ul>
+
+				<label for="note_d">Bemerkung: </label>
+				<textarea id="note_d" rows="5"></textarea>
+
+					<a data-role="button" id="saveApp">Speichern</a>
+					<a data-role="button" id="deleteApp">L&ouml;schen</a>
+				</div>
+			</div>
+
+			<!-- Page: contacts_overview -->
 			<div data-role="page" id="contacts_overview">
 				<div data-role="header">
 					<a data-icon="carat-l" data-iconpos="notext" href="#index"></a>
@@ -105,6 +155,8 @@
 					<a data-role="button" href="#contact_details" id="newContactForm">Neuer Kontakt</a>
 				</div>
 			</div>
+
+			<!-- Page: contact_detail -->
 			<div data-role="page" id="contact_details">
 				<div data-role="header">
 					<a data-icon="carat-l" data-iconpos="notext" data-rel="back"></a>
@@ -127,6 +179,8 @@
 					<a data-role="button" id="deleteContact">L&ouml;schen</a>
 				</div>
 			</div>
+
+			<!-- Page: places_overview -->
 			<div data-role="page" id="places_overview">
 				<div data-role="header">
 					<a data-icon="carat-l" data-iconpos="notext" data-rel="back"></a>
@@ -141,6 +195,8 @@
 					<a data-role="button" href="#place_details" id="newPlaceForm">Neuer Ort</a>
 				</div>
 			</div>
+
+			<!-- Page: place_details -->
 			<div data-role="page" id="place_details">
 				<div data-role="header">
 					<a data-icon="carat-l" data-iconpos="notext" data-rel="back"></a>
@@ -164,5 +220,7 @@
 					<a data-role="button" id="deletePlace">L&ouml;schen</a>
 				</div>
 			</div>
+
     </body>
+
 </html>

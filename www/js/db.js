@@ -17,7 +17,8 @@ function openDB() {
 			//alert("Tabellen angelegt");
 		}
     }
-	
+
+/*Contacts*/
 function createContact(){
 		var vname = $("#kontakt_vorname").val();
 		var nname = $("#kontakt_name").val();
@@ -97,6 +98,7 @@ function getContactDetails(kid,callback){
 	}
 }
 
+/*Places*/
 function getPlaces(callback){
 	db.transaction(function(tx){
 		tx.executeSql("SELECT * FROM ORT ORDER BY BEZEICHNUNG",[],callback);
@@ -179,17 +181,18 @@ function deletePlace(oid){
 }
 
 
+/*Appointments*/
 //Not emplemented yet
 function createAppointment(){
 		var ttitel = $("#t_titel").val();
-		var tplace = $("#t_place").val();
+		var tiod = $("#place_id").val();
 		var tstart = $("#t_start").val();
 		var tend = $("#t_end").val();
 		var tfile = $('t_file').val();
 		var bem = $("#t_note").val();
 		db.transaction(newAppointment, errorCB, successCB);
 		function newAppointment(tx){
-			tx.executeSql("INSERT INTO TERMIN (ANFANG,ENDE,TITEL,BESCHREIBUB) VALUES (?,?,?,?)",[tstart,tend,ttitel,bem]);
+			tx.executeSql("INSERT INTO TERMIN (ANFANG,ENDE,TITEL,BESCHREIBUB,OID) VALUES (?,?,?,?,?)",[tstart,tend,ttitel,bem,tiod]);
 		}
 		function errorCB(err){
 			alert(err.code+ ' ' +  err.message);
@@ -202,29 +205,48 @@ function createAppointment(){
 }
 
 //to be done
-function updateAppointment(){
-		var ttitel = $("#t_titel").val();
-		var tplace = $("#t_place").val();
-		var tstart = $("#t_start").val();
-		var tend = $("#t_end").val();
-		var bem = $("#t_note").val();
-		db.transaction(updAppointment, errorCB, successCB);
-		function updAppointment(tx){
-			tx.executeSql("UPDATE TERMIN SET " + 
+function updateAppointment(tid){
+	var ttitel = $("#t_titel").val();
+	var tiod = $("#place_id").val();
+	var tstart = $("#t_start").val();
+	var tend = $("#t_end").val();
+	var bem = $("#t_note").val();
+	db.transaction(updAppointment, errorCB, successCB);
+	function updAppointment(tx){
+		tx.executeSql("UPDATE TERMIN SET " + 
+			"TITEL = ?, ANFANG = ?, ENDE = ?, BESCHREIBUB = ?, OID = ? " +
+			"WHERE tid = ?", [ttitel,tstart,tend,bem,toid]);
+	}
 
-		}
-tx.executeSql("UPDATE ORT SET " +
-				"BEZEICHNUNG = ?, STRASSE = ?, HAUSNUMMER = ?, STADT = ? , PLZ = ?, LAND = ? " +
-				"WHERE oid = ?",[bezeichnung,strasse,hausnummer,stadt,plz,land,oid]);
+	function errorCB(err){
+		alert(err.code+ ' ' +  err.message);
+	}
 
-		function errorCB(err){
-			alert(err.code+ ' ' +  err.message);
-		}
-		function successCB(){
-			alert("Termin erstellt");
-			fillAppointmentsList();
-			location.href="#index";
-		}
+	function successCB(){
+		alert("Termin bearbeitet");
+		fillAppointmentsList();
+		location.href="#index";
+	}
+}
+
+function deleteAppointment(tid){
+	db.transaction(delAppointment, errorCB, successCB);
+	function delAppointment(tx){
+		tx.executeSql("DELETE FROM TERMIN " +
+				"WHERE tid = ?",[tid]);
+		tx.executeSql("DELETE FROM TERMIN_KUNDE " +
+				"WHERE tid = ?",[tid]);
+		tx.executeSql("DELETE FROM DOKUMENT " +
+				"WHERE tid = ?",[tid]);
+	}
+	function errorCB(err){
+		alert(err.code+ ' ' +  err.message);
+	}
+	function successCB(){
+		alert("Termin gelöscht");
+		fillAppointmentsList();
+		location.href="#index";
+	}
 }
 
 
@@ -238,3 +260,13 @@ function getAppointments(callback){
 	function successCB(){
 	}
 }
+
+function getAppointmentDetails(tid,callback){
+	db.transaction(function(tx){
+		tx.executeSql("SELECT * FROM TERMIN WHERE tid = ?",[tid],callback);
+	},errorCB,successCB);
+	function errorCB(err){
+	}
+	function successCB(){
+	}
+}	

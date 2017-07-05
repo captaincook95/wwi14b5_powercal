@@ -1,4 +1,5 @@
 var ContactsOverviewSelectMode = false;
+var PlacesOverviewSelectMode = false;
 
 document.addEventListener('deviceready', startApp, false);
 
@@ -9,28 +10,6 @@ function startApp() {
 	fillContactsList();
 	fillPlacesList();
 	fillAppointmentsList();
-	$("#newContact").on('click', function(){
-		processContact();
-	});
-	
-	$("#newAppointment").on('click', function(){
-			 processAppointment();
-			 //createAppointment();
-        }
-    ); 
-	
-	$("#t_start").on('click', function(){
-		calendar($("#t_start"));
-	});
-	
-	$("#t_end").on('click', function(){
-		calendar($("#t_end"));
-	});
-	
-	$("#addTeilnehmer").on('click', function(){
-		location.href="#contacts_overview";
-	});
-
 
 	$(document).on("pagecontainerbeforeshow", function(event, ui){
 		
@@ -47,7 +26,12 @@ function startApp() {
 		}
 	});
 
-	// Contacts
+
+	/*Contacts*/
+	$("#newContact").on('click', function(){
+		processContact();
+	});
+
 	$(document).on('click','#contacts a', function(){
 		// alert("Select mode: " + ContactsOverviewSelectMode);
 		if (ContactsOverviewSelectMode) {
@@ -73,7 +57,18 @@ function startApp() {
 		$("#importContact").show();
 	});
 
-	// Places
+	$("#deleteContact").on('click', function(){
+		if (confirm("Wollen Sie den Kontakt " + $('#kontakt_name').val() + ", " + $('#kontakt_vorname').val() + " wirklich löschen?") == true){
+			deleteContact($('#k_id').val());
+		}
+	});
+
+	$("#importContact").on('click', function(){
+		importContact();
+	});
+
+
+	/*Places*/
 	$(document).on('swiperight','#places a', function(){
 		$("#deletePlace").show();
 		fillPlaceForm(this);
@@ -85,16 +80,6 @@ function startApp() {
 		$('#place_name').show();
 		$('#place_id').val($(this).attr('data-oid'));
 		location.href="#new_appointment";
-	});
-
-	$("#deleteContact").on('click', function(){
-		if (confirm("Wollen Sie den Kontakt " + $('#kontakt_name').val() + ", " + $('#kontakt_vorname').val() + " wirklich löschen?") == true){
-			deleteContact($('#k_id').val());
-		}
-	});
-
-	$("#importContact").on('click', function(){
-		importContact();
 	});
 
 	$("#savePlace").on('click', function(){
@@ -111,8 +96,55 @@ function startApp() {
 			deletePlace($('#o_id').val());
 		}
 	});
+
+
+	/*Appointments*/
+	$("#create_appointment_button").on('click', function(){
+		alert('Create appointment');
+		clearNewAppointmentForm();
+	}); 
+
+
+	$("#newAppointment").on('click', function(){
+		alert($('t_file').val());
+		processAppointment();
+	}); 
+
+	$("#saveApp").on('click', function(){
+		processAppointment();
+	});
+
+	$("#deleteApp").on('click', function(){
+		if (confirm("Wollen Sie den Termin " + $('#titel_d').val()  + " wirklich löschen?") == true){
+			deleteAppointment($('#t_id').val());
+		}
+	});	
+	
+	$("#t_start").on('click', function(){
+		calendar($("#t_start"));
+	});
+	
+	$("#t_end").on('click', function(){
+		calendar($("#t_end"));
+	});
+	
+	$("#addTeilnehmer").on('click', function(){
+		location.href="#contacts_overview";
+	});
+
+	// to be done
+	$(document).on('click','#appointments a', function(){
+		fillAppointmentForm(this);
+		location.href="#appointment_details";
+	});
+
+	
+
+	
 }
 
+
+/*Contacts*/
 function fillContactsList(){
 	getContacts(function(tx, results){
 		//alert(results.rows.length);
@@ -126,15 +158,6 @@ function fillContactsList(){
 			//alert("Listview completed");
 			$("#contacts").listview('refresh');
 	});
-}
-
-function addTeilnehmer(contact){
-	var contact_id = $(contact).attr('data-kid')
-	getContactDetails(contact_id,function(tx,results){
-		var row = results.rows.item(0); //Es kann immer nur eine Zeile zurückkommen, da ID unique ist
-		$("#aktiveTeilnehmer").append('<li><a data-kid="' + row['kid'] + '">' + row['NACHNAME'] + ', ' + row['VORNAME'] + '</a></li>');
-		$("#aktiveTeilnehmer").listview("refresh");
-	});	
 }
 
 function fillContactForm(contact){
@@ -184,6 +207,7 @@ function clearContactForm(){
 	$('#k_id').val('');
 }
 
+/*Places*/
 function fillPlacesList(){
 	getPlaces(function(tx, results){
 			$("#places").empty();
@@ -230,6 +254,7 @@ function processPlace(){
 	}
 }
 
+/*Appointments*/
 function fillAppointmentsList(){
 	getAppointments(function(tx, results){
 		//alert(results.rows.length);
@@ -237,21 +262,56 @@ function fillAppointmentsList(){
 				for (var i = 0; i < results.rows.length; i++){
 					//alert("Row: " + i);
 					var row = results.rows.item(i);
-					$("#appointments").append('<li><a href="#selectedAppointment" data-kid="' + row['kid'] + '">' + row['ANFANG'] + '</a>');
+					$("#appointments").append('<li><a href="#" data-tid="' + row['tid'] + '">' + row['ANFANG'] + '</a>');
 			}
 			//alert("Listview completed");
 			$("#appointments").listview('refresh');
 	});
 }
 
-function clearAppointmantForm(){
+function addTeilnehmer(contact){
+	var contact_id = $(contact).attr('data-kid')
+	getContactDetails(contact_id,function(tx,results){
+		var row = results.rows.item(0); //Es kann immer nur eine Zeile zurückkommen, da ID unique ist
+		$("#aktiveTeilnehmer").append('<li><a data-kid="' + row['kid'] + '">' + row['NACHNAME'] + ', ' + row['VORNAME'] + '</a></li>');
+		$("#aktiveTeilnehmer").listview("refresh");
+	});	
+}
+
+function clearAppointmentForm(){
+	$('#titel_d').val('');
+	$('#place_d').val('');
+	$('#start_d').val('');
+	$('#end_d').val('');
+	$('#teilnehmer_d').empty();
+	//$('#t_file').val('');
+	$('#note_d').val('');
+}
+
+function clearNewAppointmentForm(){
 	$('#t_titel').val('');
 	$('#place_name').val('');
 	$('#t_start').val('');
 	$('#t_end').val('');
 	$('#aktiveTeilnehmer').empty();
-	$('#t_file').val('');
+	//$('#t_file').val('');
 	$('#t_note').val('');
+}
+
+function fillAppointmentForm(appointment){
+	var tid = $(appointment).attr('data-tid');
+	alert(tid);
+	clearAppointmentForm();
+	getAppointmentDetails(tid,function(tx,results){
+		var row = results.rows.item(0); //Es kann immer nur eine Zeile zurückkommen, da ID unique ist
+		$('#titel_d').val(row['TITEL']);
+		$('#start_d').val(row['ANFANG']);
+		$('#end_d').val(row['ENDE']);
+		$('#note_d').val(row['BESCHREIBUB']);
+		$('#t_id').val(tid);
+	});
+
+
 }
 
 function processAppointment(){
@@ -262,8 +322,6 @@ function processAppointment(){
 		updateAppointment(t_id);
 	}
 }
-
-
 
 function calendar(control) {
 
