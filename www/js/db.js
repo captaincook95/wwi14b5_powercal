@@ -192,7 +192,15 @@ function createAppointment(){
 		var bem = $("#t_note").val();
 		db.transaction(newAppointment, errorCB, successCB);
 		function newAppointment(tx){
-			tx.executeSql("INSERT INTO TERMIN (ANFANG,ENDE,TITEL,BESCHREIBUB,OID) VALUES (?,?,?,?,?)",[tstart,tend,ttitel,bem,tiod]);
+			tx.executeSql("INSERT INTO TERMIN (ANFANG,ENDE,TITEL,BESCHREIBUB,OID) VALUES (?,?,?,?,?)",[tstart,tend,ttitel,bem,tiod],
+				function(tx, results){
+        			var tid = results.insertId;
+					$("#aktiveTeilnehmer a").each(function(idx, a){
+						var kid = $(a).attr('data-kid');
+						// alert('List: ' + idx + ', ' + tid + ', ' + kid);
+						tx.executeSql("INSERT INTO TERMIN_KUNDE (TID, KID) VALUEs (?,?)", [tid, kid]);
+					});
+    			});
 		}
 		function errorCB(err){
 			alert(err.code+ ' ' +  err.message);
@@ -269,4 +277,14 @@ function getAppointmentDetails(tid,callback){
 	}
 	function successCB(){
 	}
-}	
+}
+
+function getAppointmentContacts(tid, callback){
+	db.transaction(function(tx){
+		tx.executeSql("SELECT * FROM TERMIN_KUNDE WHERE TID = ?",[tid],callback);
+	},errorCB,successCB);
+	function errorCB(err){
+	}
+	function successCB(){
+	}
+}

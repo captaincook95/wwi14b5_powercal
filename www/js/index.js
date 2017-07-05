@@ -100,7 +100,6 @@ function startApp() {
 
 	/*Appointments*/
 	$("#create_appointment_button").on('click', function(){
-		alert('Create appointment');
 		clearNewAppointmentForm();
 	}); 
 
@@ -300,8 +299,10 @@ function clearNewAppointmentForm(){
 
 function fillAppointmentForm(appointment){
 	var tid = $(appointment).attr('data-tid');
-	alert(tid);
+	// alert(tid);
 	clearAppointmentForm();
+
+	// Fill details
 	getAppointmentDetails(tid,function(tx,results){
 		var row = results.rows.item(0); //Es kann immer nur eine Zeile zurückkommen, da ID unique ist
 		$('#titel_d').val(row['TITEL']);
@@ -311,7 +312,18 @@ function fillAppointmentForm(appointment){
 		$('#t_id').val(tid);
 	});
 
-
+	// Fill contacts
+	getAppointmentContacts(tid, function(tx, results){
+		for (var i = 0; i < results.rows.length; i++){
+			var kid = results.rows.item(i)['KID'];
+			// alert("Row: "+ i + ', ' + kid);
+			getContactDetails(kid, function(tx, results){
+				var row = results.rows.item(0); //Es kann immer nur eine Zeile zurückkommen, da ID unique ist
+				$("#teilnehmer_d").append('<li><a data-kid="' + row['kid'] + '">' + row['NACHNAME'] + ', ' + row['VORNAME'] + '</a></li>');
+				$("#teilnehmer_d").listview("refresh");
+			});	
+		}
+	});
 }
 
 function processAppointment(){
