@@ -188,7 +188,7 @@ function createAppointment(){
 		var tiod = $("#place_id").val();
 		var tstart = $("#t_start").val();
 		var tend = $("#t_end").val();
-		var tfile = $('t_file').val();
+		// var tfile = $('t_file').val();
 		var bem = $("#t_note").val();
 		db.transaction(newAppointment, errorCB, successCB);
 		function newAppointment(tx){
