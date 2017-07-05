@@ -200,7 +200,7 @@ function createAppointment(){
 			location.href="#index";
 		}
 }
-
+/*
 //to be done
 function updateAppointment(){
 		var ttitel = $("#t_titel").val();
@@ -226,7 +226,7 @@ tx.executeSql("UPDATE ORT SET " +
 			location.href="#index";
 		}
 }
-
+*/
 
 function getAppointments(callback){
 	db.transaction(function(tx){

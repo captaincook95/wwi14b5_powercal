@@ -3,145 +3,165 @@ var ContactsOverviewSelectMode = false;
 document.addEventListener('deviceready', startApp, false);
 
 function startApp() {
-	//alert("deviceReady");
+	// alert("deviceReady");
 
 	openDB();
 	fillContactsList();
 	fillPlacesList();
 	fillAppointmentsList();
-	$("#newContact").on('click', function(){
+	$("#newContact").on('click', function() {
 		processContact();
 	});
-	
-	$("#newAppointment").on('click', function(){
-			 processAppointment();
-			 //createAppointment();
-        }
-    ); 
-	
-	$("#t_start").on('click', function(){
+
+	$("#newAppointment").on('click', function() {
+		processAppointment();
+		// createAppointment();
+	});
+
+	$("#t_start").on('click', function() {
 		calendar($("#t_start"));
 	});
-	
-	$("#t_end").on('click', function(){
+
+	$("#t_end").on('click', function() {
 		calendar($("#t_end"));
 	});
-	
-	$("#addTeilnehmer").on('click', function(){
-		location.href="#contacts_overview";
+
+	$("#addTeilnehmer").on('click', function() {
+		location.href = "#contacts_overview";
 	});
 
+	$(document)
+			.on(
+					"pagecontainerbeforeshow",
+					function(event, ui) {
 
-	$(document).on("pagecontainerbeforeshow", function(event, ui){
-		
-		if (ui.prevPage[0].id == $("#new_appointment").prop("id")
-		 && ui.toPage[0].id == $("#contacts_overview").prop("id")) {
-			// alert("Enter select mode");
-			ContactsOverviewSelectMode = true;
-		}
-		else if (ui.prevPage[0].id == $("#contacts_overview").prop("id")
-		 && (ui.toPage[0].id == $("#new_appointment").prop("id") 
-		 	|| ui.toPage[0].id == $("#index").prop("id"))) {
-			// alert("Leave select mode");
-			ContactsOverviewSelectMode = false;
-		}
-	});
+						if (ui.prevPage[0].id == $("#new_appointment").prop(
+								"id")
+								&& ui.toPage[0].id == $("#contacts_overview")
+										.prop("id")) {
+							// alert("Enter select mode");
+							ContactsOverviewSelectMode = true;
+						} else if (ui.prevPage[0].id == $("#contacts_overview")
+								.prop("id")
+								&& (ui.toPage[0].id == $("#new_appointment")
+										.prop("id") || ui.toPage[0].id == $(
+										"#index").prop("id"))) {
+							// alert("Leave select mode");
+							ContactsOverviewSelectMode = false;
+						}
+					});
 
 	// Contacts
-	$(document).on('click','#contacts a', function(){
+	$(document).on('click', '#contacts a', function() {
 		// alert("Select mode: " + ContactsOverviewSelectMode);
 		if (ContactsOverviewSelectMode) {
 			addTeilnehmer(this);
-			location.href="#new_appointment";
-		} 
-		else {
+			location.href = "#new_appointment";
+		} else {
 			$("#importContact").hide();
 			fillContactForm(this);
-			location.href="#contact_details";
+			location.href = "#contact_details";
 		}
 	});
 
-	$(document).on('swiperight','#contacts a', function(){
+	$(document).on('swiperight', '#contacts a', function() {
 		$("#importContact").hide();
 		fillContactForm(this);
-		location.href="#contact_details";
+		location.href = "#contact_details";
 	});
 
-	$(document).on('click','#newContactForm', function(){
+	$(document).on('click', '#newContactForm', function() {
 		clearContactForm();
 		$("#deleteContact").hide();
 		$("#importContact").show();
 	});
 
 	// Places
-	$(document).on('swiperight','#places a', function(){
+	$(document).on('swiperight', '#places a', function() {
 		$("#deletePlace").show();
 		fillPlaceForm(this);
-		location.href="#place_details";
+		location.href = "#place_details";
 	});
 
-	$(document).on('click','#places a', function(){
+	$(document).on('click', '#places a', function() {
 		$('#place_name').val($(this).attr('data-bez'));
 		$('#place_name').show();
 		$('#place_id').val($(this).attr('data-oid'));
-		location.href="#new_appointment";
+		location.href = "#new_appointment";
 	});
 
-	$("#deleteContact").on('click', function(){
-		if (confirm("Wollen Sie den Kontakt " + $('#kontakt_name').val() + ", " + $('#kontakt_vorname').val() + " wirklich löschen?") == true){
-			deleteContact($('#k_id').val());
-		}
-	});
+	$("#deleteContact")
+			.on(
+					'click',
+					function() {
+						if (confirm("Wollen Sie den Kontakt "
+								+ $('#kontakt_name').val() + ", "
+								+ $('#kontakt_vorname').val()
+								+ " wirklich löschen?") == true) {
+							deleteContact($('#k_id').val());
+						}
+					});
 
-	$("#importContact").on('click', function(){
+	$("#importContact").on('click', function() {
 		importContact();
 	});
 
-	$("#savePlace").on('click', function(){
+	$("#savePlace").on('click', function() {
 		processPlace();
 	});
 
-	$("#newPlaceForm").on('click', function(){
+	$("#newPlaceForm").on('click', function() {
 		clearPlaceForm();
 		$('#deletePlace').hide();
 	});
 
-	$("#deletePlace").on('click', function(){
-		if (confirm("Wollen Sie den Ort " + $('#ort_bezeichnung').val()  + " wirklich löschen?") == true){
-			deletePlace($('#o_id').val());
+	$("#deletePlace").on(
+			'click',
+			function() {
+				if (confirm("Wollen Sie den Ort " + $('#ort_bezeichnung').val()
+						+ " wirklich löschen?") == true) {
+					deletePlace($('#o_id').val());
+				}
+			});
+
+}
+
+function fillContactsList() {
+	getContacts(function(tx, results) {
+		// alert(results.rows.length);
+		$("#contacts").empty();
+		for (var i = 0; i < results.rows.length; i++) {
+			// alert("Row: " + i);
+			var row = results.rows.item(i);
+			// alert("Kontakt gefunden: " + row['NACHNAME'] + ', ' +
+			// row['VORNAME'] + ', kid = ' + row['kid']);
+			$("#contacts").append(
+					'<li><a data-kid="' + row['kid'] + '">' + row['NACHNAME']
+							+ ', ' + row['VORNAME'] + '</a></li>');
 		}
+		// alert("Listview completed");
+		$("#contacts").listview('refresh');
 	});
 }
 
-function fillContactsList(){
-	getContacts(function(tx, results){
-		//alert(results.rows.length);
-			$("#contacts").empty();
-			for (var i = 0; i < results.rows.length; i++){
-				//alert("Row: " + i);
-				var row = results.rows.item(i);
-				//alert("Kontakt gefunden: " + row['NACHNAME'] + ', ' + row['VORNAME'] + ', kid = ' + row['kid']);
-				$("#contacts").append('<li><a data-kid="' + row['kid'] + '">' + row['NACHNAME'] + ', ' + row['VORNAME'] + '</a></li>');
-			}
-			//alert("Listview completed");
-			$("#contacts").listview('refresh');
-	});
-}
-
-function addTeilnehmer(contact){
+function addTeilnehmer(contact) {
 	var contact_id = $(contact).attr('data-kid')
-	getContactDetails(contact_id,function(tx,results){
-		var row = results.rows.item(0); //Es kann immer nur eine Zeile zurückkommen, da ID unique ist
-		$("#aktiveTeilnehmer").append('<li><a data-kid="' + row['kid'] + '">' + row['NACHNAME'] + ', ' + row['VORNAME'] + '</a></li>');
+	getContactDetails(contact_id, function(tx, results) {
+		var row = results.rows.item(0); // Es kann immer nur eine Zeile
+										// zurückkommen, da ID unique ist
+		$("#aktiveTeilnehmer").append(
+				'<li><a data-kid="' + row['kid'] + '">' + row['NACHNAME']
+						+ ', ' + row['VORNAME'] + '</a></li>');
 		$("#aktiveTeilnehmer").listview("refresh");
-	});	
+	});
 }
 
-function fillContactForm(contact){
+function fillContactForm(contact) {
 	clearContactForm();
 	var contact_id = $(contact).attr('data-kid')
-	getContactDetails(contact_id,function(tx,results){
-		var row = results.rows.item(0); //Es kann immer nur eine Zeile zurückkommen, da ID unique ist
+	getContactDetails(contact_id, function(tx, results) {
+		var row = results.rows.item(0); // Es kann immer nur eine Zeile
+										// zurückkommen, da ID unique ist
 		$('#kontakt_name').val(row['NACHNAME']);
 		$('#kontakt_vorname').val(row['VORNAME']);
 		$('#kontakt_telnr').val(row['TELNR']);
@@ -152,30 +172,38 @@ function fillContactForm(contact){
 	});
 }
 
-function processContact(){
-	var contact_id = $('#k_id').val();
-	if (contact_id === ""){
-		createContact();
+function processContact() {
+	validate_result = validate("customer_details");
+	if (validate_result == '') {
+		var contact_id = $('#k_id').val();
+		if (contact_id === "") {
+			createContact();
+		} else {
+			updateContact(contact_id);
+		}
 	} else {
-		updateContact(contact_id);
+		alert(validate_result);
 	}
 }
 
-function importContact(){
+function importContact() {
 	clearContactForm();
-	navigator.contacts.pickContact(function(contact){
-        var json = JSON.parse(JSON.stringify(contact));
-        $('#kontakt_name').val(json.name.familyName);
-		$('#kontakt_vorname').val(json.name.givenName);
-		$('#kontakt_telnr').val(json.phoneNumbers[0].value);
-		$('#kontakt_email').val(json.emails[0].value);
-		$('#kontakt_bemerkung').val(json.note);      
-    },function(err){
-        alert('Fehler beim Abrufen des Kontakt. Stellen Sie sicher, dass diese App Zugriff auf Ihre Kontakte hat.');
-    });
+	navigator.contacts
+			.pickContact(
+					function(contact) {
+						var json = JSON.parse(JSON.stringify(contact));
+						$('#kontakt_name').val(json.name.familyName);
+						$('#kontakt_vorname').val(json.name.givenName);
+						$('#kontakt_telnr').val(json.phoneNumbers[0].value);
+						$('#kontakt_email').val(json.emails[0].value);
+						$('#kontakt_bemerkung').val(json.note);
+					},
+					function(err) {
+						alert('Fehler beim Abrufen des Kontakt. Stellen Sie sicher, dass diese App Zugriff auf Ihre Kontakte hat.');
+					});
 }
 
-function clearContactForm(){
+function clearContactForm() {
 	$('#kontakt_name').val('');
 	$('#kontakt_vorname').val('');
 	$('#kontakt_telnr').val('');
@@ -184,22 +212,26 @@ function clearContactForm(){
 	$('#k_id').val('');
 }
 
-function fillPlacesList(){
-	getPlaces(function(tx, results){
-			$("#places").empty();
-			for (var i = 0; i < results.rows.length; i++){
-				var row = results.rows.item(i);
-				$("#places").append('<li> <a href="#" data-oid="' + row['oid'] + '" data-bez="' + row['BEZEICHNUNG'] +  '">' + row['BEZEICHNUNG'] + '</a></li>');
-			}
-			$("#places").listview('refresh');
+function fillPlacesList() {
+	getPlaces(function(tx, results) {
+		$("#places").empty();
+		for (var i = 0; i < results.rows.length; i++) {
+			var row = results.rows.item(i);
+			$("#places").append(
+					'<li> <a href="#" data-oid="' + row['oid'] + '" data-bez="'
+							+ row['BEZEICHNUNG'] + '">' + row['BEZEICHNUNG']
+							+ '</a></li>');
+		}
+		$("#places").listview('refresh');
 	});
 }
 
-function fillPlaceForm(place){
+function fillPlaceForm(place) {
 	clearPlaceForm();
 	var place_id = $(place).attr('data-oid')
-	getPlaceDetails(place_id,function(tx,results){
-		var row = results.rows.item(0); //Es kann immer nur eine Zeile zurückkommen, da ID unique ist
+	getPlaceDetails(place_id, function(tx, results) {
+		var row = results.rows.item(0); // Es kann immer nur eine Zeile
+										// zurückkommen, da ID unique ist
 		$('#ort_bezeichnung').val(row['BEZEICHNUNG']);
 		$('#ort_strasse').val(row['STRASSE']);
 		$('#ort_hausnummer').val(row['HAUSNUMMER']);
@@ -211,7 +243,7 @@ function fillPlaceForm(place){
 	});
 }
 
-function clearPlaceForm(){
+function clearPlaceForm() {
 	$('#ort_bezeichnung').val('');
 	$('#ort_strasse').val('');
 	$('#ort_hausnummer').val('');
@@ -221,30 +253,32 @@ function clearPlaceForm(){
 	$('#o_id').val('');
 }
 
-function processPlace(){
+function processPlace() {
 	var place_id = $('#o_id').val();
-	if (place_id === ""){
+	if (place_id === "") {
 		createPlace();
 	} else {
 		update_place(place_id);
 	}
 }
 
-function fillAppointmentsList(){
-	getAppointments(function(tx, results){
-		//alert(results.rows.length);
-			$("#appointments").empty();
-				for (var i = 0; i < results.rows.length; i++){
-					//alert("Row: " + i);
-					var row = results.rows.item(i);
-					$("#appointments").append('<li><a href="#selectedAppointment" data-kid="' + row['kid'] + '">' + row['ANFANG'] + '</a>');
-			}
-			//alert("Listview completed");
-			$("#appointments").listview('refresh');
+function fillAppointmentsList() {
+	getAppointments(function(tx, results) {
+		// alert(results.rows.length);
+		$("#appointments").empty();
+		for (var i = 0; i < results.rows.length; i++) {
+			// alert("Row: " + i);
+			var row = results.rows.item(i);
+			$("#appointments").append(
+					'<li><a href="#selectedAppointment" data-kid="'
+							+ row['kid'] + '">' + row['ANFANG'] + '</a>');
+		}
+		// alert("Listview completed");
+		$("#appointments").listview('refresh');
 	});
 }
 
-function clearAppointmantForm(){
+function clearAppointmantForm() {
 	$('#t_titel').val('');
 	$('#place_name').val('');
 	$('#t_start').val('');
@@ -254,36 +288,35 @@ function clearAppointmantForm(){
 	$('#t_note').val('');
 }
 
-function processAppointment(){
+function processAppointment() {
 	var t_id = $('#t_id').val();
-	if (t_id === ""){
+	if (t_id === "") {
 		createAppointment();
 	} else {
 		updateAppointment(t_id);
 	}
 }
 
-
-
 function calendar(control) {
 
-  //alert("test")
+	// alert("test")
 
-  var options = {
-    date: new Date(),
-    mode: 'datetime'
-  };
-  
-  function onSuccess(date) {
-    alert('Selected date: ' + date);
-	var time = date.getHours() + ':' + date.getMinutes();
-	var day = date.getDay() +'.' + date.getMonth() + '.' + date.getFullYear();
-	control.val(day + ' ' + time);
-  }	
+	var options = {
+		date : new Date(),
+		mode : 'datetime'
+	};
 
-  function onError(error) { // Android only
-    //alert('Error: ' + error);
-  }
+	function onSuccess(date) {
+		alert('Selected date: ' + date);
+		var time = date.getHours() + ':' + date.getMinutes();
+		var day = date.getDay() + '.' + date.getMonth() + '.'
+				+ date.getFullYear();
+		control.val(day + ' ' + time);
+	}
 
-  datePicker.show(options, onSuccess, onError);
+	function onError(error) { // Android only
+		// alert('Error: ' + error);
+	}
+
+	datePicker.show(options, onSuccess, onError);
 }
