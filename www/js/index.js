@@ -107,7 +107,7 @@ function startApp() {
 
 	// Appointments
 	$(document).on('click','#appointments a', function(){
-		fillAppointmentForm(this);
+		fillDetailsAppointmentForm(this);
 		location.href="#appointment_details";
 	});
 
@@ -167,7 +167,7 @@ function addTeilnehmer(contact) {
 	});	
 }
 
-function clearNewAppointmentForm() {
+function clearDetailsAppointmentForm() {
 	$('#titel_d').val('');
 	$('#place_d').val('');
 	$('#start_d').val('');
@@ -177,7 +177,7 @@ function clearNewAppointmentForm() {
 	$('#note_d').val('');
 }
 
-function clearAppointmentForm() {
+function clearNewAppointmentForm() {
 	$('#t_titel').val('');
 	$('#place_name').val('');
 	$('#t_start').val('');
@@ -187,11 +187,11 @@ function clearAppointmentForm() {
 	$('#t_note').val('');
 }
 
-function fillAppointmentForm(appointment) {
+function fillDetailsAppointmentForm(appointment) {
 	var tid = $(appointment).attr('data-tid');
 	// alert(tid);
 
-	clearAppointmentForm();
+	clearDetailsAppointmentForm();
 
 	// Fill details
 	getAppointmentDetails(tid,function(tx,results){
@@ -235,7 +235,6 @@ function processAppointment() {
 }
 
 function calendar(control) {
-	// alert("test")
 
 	var options = {
 		date : new Date(),
@@ -243,7 +242,6 @@ function calendar(control) {
 	};
 
 	function onSuccess(date) {
-		alert('Selected date: ' + date);
 		var time = date.getHours() + ':' + date.getMinutes();
 		var day = date.getDay() + '.' + date.getMonth() + '.'
 				+ date.getFullYear();
