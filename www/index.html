@@ -18,250 +18,281 @@
     under the License.
 -->
 <html>
-    <head>
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.5.min.css">
-		<script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-		<script type="text/javascript" src="js/db.js"></script>
-		<script type="text/javascript" src="js/jquery.min.js"></script>
-		<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
-		<script type="text/javascript" src="js/validate.js"></script>
-		<script type="text/javascript" src="js/places.js"></script>
-		<script type="text/javascript" src="js/contacts.js"></script>
-	
-        <title>Hello World</title>
-    </head>
-    <body>
+<head>
+<meta http-equiv="Content-Security-Policy"
+	content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+<meta name="format-detection" content="telephone=no">
+<meta name="msapplication-tap-highlight" content="no">
+<meta name="viewport"
+	content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+<link rel="stylesheet" type="text/css" href="css/index.css">
+<link rel="stylesheet" type="text/css"
+	href="css/jquery.mobile-1.4.5.min.css">
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/db.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="js/validate.js"></script>
+<script type="text/javascript" src="js/places.js"></script>
+<script type="text/javascript" src="js/contacts.js"></script>
 
-    		<!-- Page: index -->
-            <div data-role="page" id="index" >
-				<div data-role="header">
-					<a href="#index" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
-					<h1>PowerCal</h1>
-					<a href="#settings" class="ui-btn ui-shadow ui-corner-all ui-icon-gear ui-btn-icon-right ui-btn-icon-notext">Settings</a>
-				</div>
-				<div role="main" class="ui-content">
-	<!-- 				<a data-role="button" data-transition="none" class="ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left"  href="#new_appointment">Neuer Termin</a>
+<title>Hello World</title>
+</head>
+<body>
+
+	<!-- Page: index -->
+	<div data-role="page" id="index">
+		<div data-role="header">
+			<a href="#index"
+				class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
+			<h1>PowerCal</h1>
+			<!-- <a href="#settings"
+				class="ui-btn ui-shadow ui-corner-all ui-icon-gear ui-btn-icon-right ui-btn-icon-notext">Settings</a>  -->
+		</div>
+		<div role="main" class="ui-content">
+			<!-- 				<a data-role="button" data-transition="none" class="ui-btn ui-corner-all ui-icon-plus ui-btn-icon-left"  href="#new_appointment">Neuer Termin</a>
 					<a data-role="button" data-icon="user" href="#contacts_overview">Kontakte</a> -->
-					<p> Hier werden die Termine angezeigt. </p>
-					<form class="ui-filterable">
-      					<input id="myFilter" data-type="search">
-    				</form>
-					<ul data-role="listview" id="appointments" data-inset="true" data-sort="true" data-filter="true" data-input="#myFilter" >  <!-- data-autodividers="true" > -->
-					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
-					</ul>														  
+			<p>Hier werden die Termine angezeigt.</p>
+			<form class="ui-filterable">
+				<input id="myFilter" data-type="search">
+			</form>
+			<ul data-role="listview" id="appointments" data-inset="true"
+				data-sort="true" data-filter="true" data-input="#myFilter">
+				<!-- data-autodividers="true" > -->
+				<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
+			</ul>
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li><a href="#contacts_overview" data-icon="user">Kontakte</a></li>
+					<li><a href="#new_appointment" id="create_appointment_button"
+						data-icon="plus">Neuer Termin</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- Page: new_appointment -->
+	<div data-role="page" id="new_appointment">
+		<div data-role="header">
+			<a href="#index"
+				class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
+			<h1>Neuer Termin</h1>
+		</div>
+		<div role="main" class="ui-content">
+			<input id="t_id" type="hidden"> <label for="t_titel">Titel</label>
+			<input name="t_titel" id="t_titel" type="text" required="required">
+
+			<label for="place_name">Ort: </label> <input name="place_name"
+				id="place_name" type="text" readonly> <input name="place_id"
+				id="place_id" type="hidden"> <label> Beginn: </label>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<label for="t_startd">Tag: </label> <input name="t_startd"
+						id="t_startd" type="text" width="40%" required="required" readonly>
+					<br>
 				</div>
-				<div data-role="footer" data-position="fixed">
-					<div data-role="navbar">
-						<ul>
-							<li><a href="#contacts_overview" data-icon="user">Kontakte</a></li>
-							<li><a href="#new_appointment" id="create_appointment_button" data-icon="plus">Neuer Termin</a></li>
-						</ul>
-					</div>
+				<div class="ui-block-b">
+					<label for="t_startt">Uhrzeit: </label> <input name="t_startt"
+						id="t_startt" type="text" required="required" readonly> <br>
 				</div>
 			</div>
 
-			<!-- Page: new_appointment -->
-			<div data-role="page" id="new_appointment">
-				<div data-role="header">
-					<a href="#index" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
-					<h1>Neuer Termin</h1>
+			<label> Ende: </label>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<label for="t_endd">Tag: </label> <input name="t_endd" id="t_endd"
+						type="text" required="required" readonly> <br>
 				</div>
-				<div role="main" class="ui-content">
-					<input id="t_id" type="hidden">
-					
-					<label for="t_titel">Titel</label>
-					<input name="t_titel" id="t_titel" type="text" required="required">
-					
-					<label for="place_name">Ort: </label>
-					<input name="place_name" id="place_name" type="text" readonly>
- 					<input name="place_id" id="place_id" type="hidden">
-					
-					<label> Beginn: </label>
-					<div class="ui-grid-a">
-      					<div class="ui-block-a">
-      						<label for="t_startd">Tag: </label>
-							<input name="t_startd" id="t_startd" type="text" width="40%" required="required" readonly> <br>
-						</div>	
-						<div class="ui-block-b">
-							<label for="t_startt">Uhrzeit: </label>	
-							<input name="t_startt" id="t_startt" type="text" required="required" readonly> <br>
-						</div>
-					</div>			
+				<div class="ui-block-b">
+					<label for="t_endt"> Uhrzeit: </label> <input name="t_endt"
+						id="t_endt" type="text" required="required" readonly> <br>
+				</div>
+			</div>
 
-					<label> Ende: </label>
-					<div class="ui-grid-a">
-      					<div class="ui-block-a">
-      						<label for="t_endd">Tag: </label>
-							<input name="t_endd" id="t_endd" type="text" required="required" readonly> <br>
-						</div>	
-						<div class="ui-block-b">
-							<label for="t_endt"> Uhrzeit: </label>	
-							<input name="t_endt" id="t_endt" type="text" required="required" readonly> <br>
-						</div>
-					</div>			
-					
-					<label for="addTeilnehmer">Teilnehmer: </label>
-					<a data-role="button" id="addTeilnehmer">Hinzuf&uuml;gen</a>
-					<ul data-role="listview" id="aktiveTeilnehmer" data-inset="true"></ul>
+			<label for="addTeilnehmer">Teilnehmer: </label> <a data-role="button"
+				id="addTeilnehmer">Hinzuf&uuml;gen</a>
+			<ul data-role="listview" id="aktiveTeilnehmer" data-inset="true"></ul>
 
-					<!-- !!! Unterlagen einfügen, Logik implementieren  -->			
-					<!-- 
+			<!-- !!! Unterlagen einfügen, Logik implementieren  -->
+			<!-- 
 					<label for="t_file">Anhang: </label>
 					<input name="t_file" id="t_file" type="file">
 					 -->
-					<a data-role="button" id="getImage">Dokument fotografieren</a>
-					<ul data-role="listview" id="documentsList" data-inset="true"></ul>
-					
-					<label for="t_note">Bemerkung: </label>
-					<textarea name="t_note" id="t_note" rows="5"></textarea>
-					
-					<a data-role="button" id="newAppointment">Termin erstellen</a>											   
+			<a data-role="button" id="getImage">Dokument fotografieren</a>
+			<ul data-role="listview" id="documentsList" data-inset="true"></ul>
+
+			<label for="t_note">Bemerkung: </label>
+			<textarea name="t_note" id="t_note" rows="5"></textarea>
+
+			<a data-role="button" id="newAppointment">Termin erstellen</a>
+		</div>
+	</div>
+
+	<!-- Page: appointment_details -->
+	<div data-role="page" id="appointment_details">
+		<div data-role="header">
+			<a href="#index"
+				class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
+			<h1>Termin bearbeiten</h1>
+		</div>
+		<div role="main" class="ui-content">
+
+			<input id="t_id" type="hidden"> <label for="titel_d">Titel</label>
+			<input name="titel_d" id="titel_d" type="text" required="required">
+
+			<label for="place_d">Ort: </label> <input name="place_d" id="place_d"
+				type="text" readonly> <input name="place_id_d"
+				id="place_id_d" type="hidden"> <label> Beginn: </label>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<label for="t_startd_d">Tag: </label> <input name="t_startd_d"
+						id="t_startd_d" type="text" required="required" readonly>
+					<br>
+				</div>
+				<div class="ui-block-b">
+					<label for="t_startt_d">Uhrzeit: </label> <input name="t_startt_d"
+						id="t_startt_d" type="text" required="required" readonly>
+					<br>
 				</div>
 			</div>
 
-			<!-- Page: appointment_details -->
-			<div data-role="page" id="appointment_details">
-				<div data-role="header">
-					<a href="#index" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
-					<h1>Termin bearbeiten</h1>
+			<label> Ende: </label>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<label for="t_endd_d">Tag: </label> <input name="t_endd_d"
+						id="t_endd_d" type="text" required="required" readonly> <br>
 				</div>
-				<div role="main" class="ui-content">
-
-				<input id="t_id" type="hidden">
-				<label for="titel_d">Titel</label>
-				<input name="titel_d" id="titel_d" type="text" required="required">
-				
-				<label for="place_d">Ort: </label>
-				<input name="place_d" id="place_d" type="text" readonly>
- 				<input name="place_id_d" id="place_id_d" type="hidden">
-
- 				<label for="start_d">Beginn: </label>
-				<input name="start_d" id="start_d" type="text" required="required">
-				
-				<label for="end_d">Ende: </label>
-				<input name="end_d" id="end_d" type="text" required="required">
-
-				<label for="teilnehmer_d">Teilnehmer: </label>
-				<a data-role="button" id="addTeilnehmer_d">Hinzuf&uuml;gen</a>
-				<ul data-role="listview" id="teilnehmer_d" data-inset="true"></ul>
-				
-				<label for="documentsList_d">Dokumente: </label>
-				<a data-role="button" id="getImage_d">Dokument fotografieren</a>
-				<ul data-role="listview" id="documentsList_d" data-inset="true"></ul>
-
-				<label for="note_d">Bemerkung: </label>
-				<textarea id="note_d" rows="5"></textarea>
-
-					<a data-role="button" id="saveApp">Speichern</a>
-					<a data-role="button" id="deleteApp">L&ouml;schen</a>
+				<div class="ui-block-b">
+					<label for="t_endt_d"> Uhrzeit: </label> <input name="t_endt_d"
+						id="t_endt_d" type="text" required="required" readonly> <br>
 				</div>
 			</div>
 
-			<!-- Page: contacts_overview -->
-			<div data-role="page" id="contacts_overview">
-				<div data-role="header">
-					<a href="#index" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
-					<h1>Kontakte</h1>
-				</div>
-				<div role="main" class="ui-content" >
-					Hier k&ouml;nnen Kontakte verwaltet werden
+			<label for="teilnehmer_d">Teilnehmer: </label> <a data-role="button"
+				id="addTeilnehmer_d">Hinzuf&uuml;gen</a>
+			<ul data-role="listview" id="teilnehmer_d" data-inset="true"></ul>
 
-					<form class="ui-filterable">
-      					<input id="myFilter" data-type="search">
-    				</form>
-					<ul data-role="listview" id="contacts" data-inset="true" data-sort="true" data-filter="true" data-input="#myFilter" data-autodividers="true" >
+			<label for="documentsList_d">Dokumente: </label> <a
+				data-role="button" id="getImage_d">Dokument fotografieren</a>
+			<ul data-role="listview" id="documentsList_d" data-inset="true"></ul>
+
+			<label for="note_d">Bemerkung: </label>
+			<textarea id="note_d" rows="5"></textarea>
+
+			<a data-role="button" id="saveApp">Speichern</a> <a
+				data-role="button" id="deleteApp">L&ouml;schen</a>
+		</div>
+	</div>
+
+	<!-- Page: contacts_overview -->
+	<div data-role="page" id="contacts_overview">
+		<div data-role="header">
+			<a href="#index"
+				class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
+			<h1>Kontakte</h1>
+		</div>
+		<div role="main" class="ui-content">
+			Hier k&ouml;nnen Kontakte verwaltet werden
+
+			<form class="ui-filterable">
+				<input id="myFilter" data-type="search">
+			</form>
+			<ul data-role="listview" id="contacts" data-inset="true"
+				data-sort="true" data-filter="true" data-input="#myFilter"
+				data-autodividers="true">
+				<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
+			</ul>
+			<!-- <ul data-role="listview" data-inset="true" data-sort="true" id="contacts">
 					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
-					</ul>
-					<!-- <ul data-role="listview" data-inset="true" data-sort="true" id="contacts">
+			<!-- </ul> -->
+			<a data-role="button" href="#contact_details" id="newContactForm">Neuer
+				Kontakt</a>
+		</div>
+	</div>
+
+	<!-- Page: contact_detail -->
+	<div data-role="page" id="contact_details">
+		<div data-role="header">
+			<a href="#index"
+				class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
+			<h1>Kontakt bearbeiten/erstellen</h1>
+		</div>
+		<div role="main" class="ui-content">
+			<form id="customer_details">
+				<input id="k_id" type="hidden"> <label for="kontakt_name">Name</label>
+				<input id="kontakt_name" name="Name" name="kontakt_name" type="text"
+					required="required"> <label for="kontakt_vorname">Vorname</label>
+				<input id="kontakt_vorname" type="text" name="Vorname"
+					required="required"> <label>Telefonnummer</label> <input
+					id="kontakt_telnr" type="text"> <label>Mailadresse</label>
+				<input id="kontakt_email" type="text"> <label>Bemerkung</label>
+				<textarea id="kontakt_bemerkung" rows="5"></textarea>
+			</form>
+			<div>
+			<a data-role="button" id="newContact">Speichern</a>
+			</div>
+			<div>
+				<a data-role="button" id="importContact">Aus Kontakten einlesen</a>
+				</div>
+			<div>
+				<a data-role="button" id="deleteContact">L&ouml;schen</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Page: places_overview -->
+	<div data-role="page" id="places_overview">
+		<div data-role="header">
+			<a href="#index"
+				class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
+			<h1>Orte</h1>
+		</div>
+		<div role="main" class="ui-content">
+			Hier k&ouml;nnen Orte ausgew&auml;hlt und verwaltet werden<br>
+			Zum Bearbeiten &uuml;ber einen Ort nach rechts wischen
+			<form class="ui-filterable">
+				<input id="myFilter" data-type="search">
+			</form>
+			<ul data-role="listview" id="places" data-inset="true"
+				data-sort="true" data-filter="true" data-input="#myFilter"
+				data-autodividers="true">
+				<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
+			</ul>
+
+			<!-- 					<ul data-role="listview" data-inset="true" data-sort="true" id="places">
 					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
-					<!-- </ul> -->
-					<a data-role="button" href="#contact_details" id="newContactForm">Neuer Kontakt</a>
-				</div>
+			<!-- 					</ul> -->
+			<a data-role="button" href="#place_details" id="newPlaceForm">Neuer
+				Ort</a>
+		</div>
+	</div>
+
+	<!-- Page: place_details -->
+	<div data-role="page" id="place_details">
+		<div data-role="header">
+			<a href="#index"
+				class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
+			<h1>Ort bearbeiten/erstellen</h1>
+		</div>
+		<div role="main" class="ui-content">
+			<input id="o_id" type="hidden"> <label>Bezeichnung</label> <input
+				id="ort_bezeichnung" type="text" required="required"> <label>Stra&szlig;e</label>
+			<input id="ort_strasse" type="text" required="required"> <label>Hausnummer</label>
+			<input id="ort_hausnummer" type="text"> <label>Ort</label> <input
+				id="ort_name" type="text"> <label>Postleitzahl</label> <input
+				id="ort_plz" type="number"> <label>Land</label> <input
+				id="ort_land" type="text"> <a data-role="button"
+				id="savePlace">Speichern</a>
+			<div>
+				<a data-role="button" id="deletePlace">L&ouml;schen</a>
 			</div>
+			<a data-role="button" id="openInMaps">In Google Maps &ouml;ffnen</a>
+		</div>
+	</div>
 
-			<!-- Page: contact_detail -->
-			<div data-role="page" id="contact_details">
-				<div data-role="header">
-					<a href="#index" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
-					<h1>Kontakt bearbeiten/erstellen</h1>
-				</div>
-				<div role="main" class="ui-content">
-				<form id="customer_details">
-					<input id="k_id" type="hidden">
-					<label for="kontakt_name">Name</label>
-					<input id="kontakt_name" name="Name" name="kontakt_name" type="text" required="required">
-					<label for="kontakt_vorname">Vorname</label>
-					<input id="kontakt_vorname" type="text" name="Vorname" required="required">
-					<label>Telefonnummer</label>
-					<input id="kontakt_telnr" type="text">
-					<label>Mailadresse</label>
-					<input id="kontakt_email" type="text">
-					<label>Bemerkung</label>
-					<textarea id="kontakt_bemerkung" rows="5"></textarea>
-				</form>
-					<a data-role="button" id="newContact">Speichern</a>
-					<a data-role="button" id="importContact">Aus Kontakten einlesen</a>
-					<a data-role="button" id="deleteContact">L&ouml;schen</a>
-				</div>
-			</div>
-
-			<!-- Page: places_overview -->
-			<div data-role="page" id="places_overview">
-				<div data-role="header">
-					<a href="#index" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
-					<h1>Orte</h1>
-				</div>
-				<div role="main" class="ui-content" >
-					Hier k&ouml;nnen Orte ausgew&auml;hlt und verwaltet werden<br>
-					Zum Bearbeiten &uuml;ber einen Ort nach rechts wischen
-					<form class="ui-filterable">
-      					<input id="myFilter" data-type="search">
-    				</form>
-					<ul data-role="listview" id="places"  data-inset="true" data-sort="true" data-filter="true" data-input="#myFilter" data-autodividers="true" >
-					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
-					</ul>
-
-<!-- 					<ul data-role="listview" data-inset="true" data-sort="true" id="places">
-					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
-<!-- 					</ul> -->
-					<a data-role="button" href="#place_details" id="newPlaceForm">Neuer Ort</a>
-				</div>
-			</div>
-
-			<!-- Page: place_details -->
-			<div data-role="page" id="place_details">
-				<div data-role="header">
-					<a href="#index" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
-					<h1>Ort bearbeiten/erstellen</h1>
-				</div>
-				<div role="main" class="ui-content">
-					<input id="o_id" type="hidden">
-					<label>Bezeichnung</label>
-					<input id="ort_bezeichnung" type="text" required="required">
-					<label>Stra&szlig;e</label>
-					<input id="ort_strasse" type="text" required="required">
-					<label>Hausnummer</label>
-					<input id="ort_hausnummer" type="text">
-					<label>Ort</label>
-					<input id="ort_name" type="text">
-					<label>Postleitzahl</label>
-					<input id="ort_plz" type="number">
-					<label>Land</label>
-					<input id="ort_land" type="text">
-					<a data-role="button" id="savePlace">Speichern</a>
-					<div>
-					<a data-role="button" id="deletePlace">L&ouml;schen</a>
-					</div>
-					<a data-role="button" id="openInMaps">In Google Maps &ouml;ffnen</a>
-				</div>
-			</div>
-
-    </body>
+</body>
 
 </html>
