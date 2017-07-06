@@ -1,5 +1,6 @@
 var ContactsOverviewSelectMode = false;
 var PlacesOverviewUpdateMode = false;
+var fromPage = "";
 
 document.addEventListener('deviceready', startApp, false);
 
@@ -10,12 +11,12 @@ function startApp() {
 	fillAppointmentsList();
 
 	$(document).on("pagecontainerbeforeshow", function(event, ui) {
-		if (ui.prevPage[0].id == $("#new_appointment").prop("id")
+		if (((ui.prevPage[0].id == $("#new_appointment").prop("id"))||(ui.prevPage[0].id == $("#appointment_details").prop("id")))
 		 && ui.toPage[0].id == $("#contacts_overview").prop("id")) {
 			ContactsOverviewSelectMode = true;
 		}
 		else if (ui.prevPage[0].id == $("#contacts_overview").prop("id")
-		 && (ui.toPage[0].id == $("#new_appointment").prop("id") 
+		 && (((ui.toPage[0].id == $("#new_appointment").prop("id"))||(ui.toPage[0].id == $("#appointment_details").prop("id")))
 		 	|| ui.toPage[0].id == $("#index").prop("id"))) {
 			ContactsOverviewSelectMode = false;
 		}
@@ -34,10 +35,13 @@ function startApp() {
 
 	// Contacts
 	$(document).on('click', '#contacts a', function() {
-		// alert("Select mode: " + ContactsOverviewSelectMode);
+		var selectedContact = this;
 		if (ContactsOverviewSelectMode) {
-			addTeilnehmer(this);
-			location.href = "#new_appointment";
+			addTln(selectedContact);
+			location.href=frompage;
+			$("#aktiveTeilnehmer").listview("refresh");
+			$("#teilnehmer_d").listview("refresh");
+			
 		} else {
 			$("#importContact").hide();
 			fillContactForm(this);
@@ -173,10 +177,21 @@ function startApp() {
 	});
 	
 	$("#addTeilnehmer").on('click', function(){
+		frompage = "#new_appointment";
+		location.href="#contacts_overview";
+	});
+	
+	$("#addTeilnehmer_d").on('click', function(){
+		frompage = "#appointment_details";
 		location.href="#contacts_overview";
 	});
 	
 	$("#getImage").on('click', function(){
+		frompage="#new_appointment";
+		takePicture();
+	});
+	$("#getImage_d").on('click', function(){
+		frompage="#appointment_details";
 		takePicture();
 	});
 	
@@ -240,12 +255,17 @@ function fillAppointmentsList() {
 	});
 }
 
-function addTeilnehmer(contact) {
-	var contact_id = $(contact).attr('data-kid')
+function addTln(contact) {
+	var contact_id = $(contact).attr('data-kid');
 	getContactDetails(contact_id,function(tx,results){
 		var row = results.rows.item(0); //Es kann immer nur eine Zeile zurückkommen, da ID unique ist
-		$("#aktiveTeilnehmer").append('<li><a data-kid="' + row['kid'] + '">' + row['NACHNAME'] + ', ' + row['VORNAME'] + '</a></li>');
-		$("#aktiveTeilnehmer").listview("refresh");
+		if (frompage == "#new_appointment"){
+			$("#aktiveTeilnehmer").append('<li><a data-kid="' + row['kid'] + '">' + row['NACHNAME'] + ', ' + row['VORNAME'] + '</a></li>');
+			$("#aktiveTeilnehmer").listview("refresh");	
+		} else {
+			$("#teilnehmer_d").append('<li><a data-kid="' + row['kid'] + '">' + row['NACHNAME'] + ', ' + row['VORNAME'] + '</a></li>');
+			$("#teilnehmer_d").listview("refresh");	
+		}
 	});	
 }
 
@@ -396,8 +416,14 @@ function takePicture(){
 		if (bez == ""){
 			alert("Kein Name angegeben. Kann Dokument nicht speichern.");
 		} else {
-			$('#documentsList').append('<li><a href="#" data-path="' + pathToFile + '">' + bez + '</a></li>');
-			$("#documentsList").listview("refresh");	
+			if (frompage == "#new_appointment"){
+				$('#documentsList').append('<li><a href="#" data-path="' + pathToFile + '">' + bez + '</a></li>');
+				$("#documentsList").listview("refresh");	
+			} else {
+				$('#documentsList_d').append('<li><a href="#" data-path="' + pathToFile + '">' + bez + '</a></li>');
+				$("#documentsList_d").listview("refresh");
+			}
+				
 		}
 	}
 	

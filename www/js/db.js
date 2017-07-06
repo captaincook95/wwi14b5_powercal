@@ -228,6 +228,21 @@ function updateAppointment(tid){
 		tx.executeSql("UPDATE TERMIN SET " + 
 			"TITEL = ?, ANFANG = ?, ENDE = ?, BESCHREIBUB = ?, OID = ? " +
 			"WHERE tid = ?", [ttitel,tstart,tend,bem,toid,tid]);
+		//Entfernen von Altdaten
+		tx.executeSql("DELETE FROM TERMIN_KUNDE " +
+				"WHERE tid = ?",[tid]);
+		tx.executeSql("DELETE FROM DOKUMENT " +
+				"WHERE tid = ?",[tid]);
+		//Eintragen aus Liste
+		$("#teilnehmer_d a").each(function(idx, a){
+			var kid = $(a).attr('data-kid');
+			tx.executeSql("INSERT INTO TERMIN_KUNDE (TID, KID) VALUEs (?,?)", [tid, kid]);
+		});
+		$("#documentsList_d a").each(function(idx, a){
+			var img_path = $(a).attr('data-path');
+			var img_bez = $(a).text();
+			tx.executeSql("INSERT INTO DOKUMENT (TID, FILE, BEZEICHNUNG) VALUEs (?,?,?)", [tid, img_path, img_bez]);
+		});
 	}
 
 	function errorCB(err){
