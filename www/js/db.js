@@ -202,7 +202,6 @@ function createAppointment(){
 					$("#documentsList a").each(function(idx, a){
 						var img_path = $(a).attr('data-path');
 						var img_bez = $(a).text();
-						alert("Inserting image " + img_bez + " with path " + img_path);
 						tx.executeSql("INSERT INTO DOKUMENT (TID, FILE, BEZEICHNUNG) VALUEs (?,?,?)", [tid, img_path, img_bez]);
 					});
     			});

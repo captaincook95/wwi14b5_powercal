@@ -130,7 +130,6 @@ function startApp() {
 	}); 
 
 	$("#newAppointment").on('click', function(){
-		alert($('t_file').val());
 		processAppointment();
 	}); 
 
@@ -193,7 +192,7 @@ function startApp() {
 			    'image/jpeg', 
 			    {
 			        error : function(){alert("Fehler"); }, 
-			        success : function(){ } 
+			        success : function(){} 
 			    } 
 			);
 	});
@@ -201,6 +200,16 @@ function startApp() {
 	$(document).on('swiperight', '#documentsList_d a', function() {
 		$(this).closest('li').remove();
 		$("#documentsList_d").listview("refresh");
+	});
+	
+	$(document).on('swiperight', '#aktiveTeilnehmer a', function() {
+		$(this).closest('li').remove();
+		$("#aktiveTeilnehmer").listview("refresh");
+	});
+	
+	$(document).on('swiperight', '#teilnehmer_d a', function() {
+		$(this).closest('li').remove();
+		$("#aktiveTeilnehmer_d").listview("refresh");
 	});
 	
 	$(document).on('click', '#documentsList_d a', function() {
@@ -248,7 +257,6 @@ function clearDetailsAppointmentForm() {
 	$('#teilnehmer_d').empty();
 	//$('#t_file').val('');
 	$('#note_d').val('');
-	$('#documentsList').empty();
 	$('#documentsList_d').empty();
 }
 
@@ -260,6 +268,8 @@ function clearNewAppointmentForm() {
 	$('#aktiveTeilnehmer').empty();
 	//$('#t_file').val('');
 	$('#t_note').val('');
+	$('#t_id').val('');
+	$('#documentsList').empty();
 }
 
 function fillDetailsAppointmentForm(appointment) {
@@ -327,7 +337,6 @@ function calendard(control) {
 	};
 
 
-	alert(new Date());
 
 	function onSuccess(date) {
 /*		var time = date.getHours() + ':' + date.getMinutes();
@@ -335,7 +344,6 @@ function calendard(control) {
 				+ date.getFullYear();*/
 		var day = date.getDate() + "." + [date.getMonth() + 1] + "." + date.getFullYear();
 
-		alert("date:" + day);
 
 		//control.val(day + ' ' + time);
 		control.val(day);
@@ -356,7 +364,6 @@ function calendart(control) {
 		mode : 'time'
 	};
 
-	alert(new Date());
 
 
 	function onSuccess(date) {
@@ -365,7 +372,6 @@ function calendart(control) {
 				+ date.getFullYear();*/
 		var time = date.getHours() + ":" + date.getMinutes();
 
-		alert("date:" + time);
 		control.val (time);
 
 	}
@@ -377,8 +383,6 @@ function calendart(control) {
 	datePicker.show(option, onSuccess, onError);
 }
 
-<<<<<<< HEAD
-=======
 function takePicture(){
 	navigator.camera.getPicture(onSuccess, onFail, {
 		quality: 50,
@@ -401,4 +405,3 @@ function takePicture(){
 		alert("Fehler beim Abrufen des Bildes: " + message)
 	}
 }
->>>>>>> 3aaf3609ceba83e479c168294630118f53cf91f1

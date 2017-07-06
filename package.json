@@ -1,13 +1,12 @@
 {
-  "name": "com.github.powercal",
-  "displayName": "PowerCal",
-  "version": "1.0.1",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-
+    "name": "com.github.powercal",
+    "displayName": "PowerCal",
+    "version": "1.0.1",
+    "description": "A sample Apache Cordova application that responds to the deviceready event.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
     "author": "Apache Cordova Team",
     "license": "Apache-2.0",
     "dependencies": {
@@ -34,4 +33,3 @@
         ]
     }
 }
-
