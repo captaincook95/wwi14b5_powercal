@@ -16,7 +16,7 @@
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.github.powercal"
         },
-        "cordova-plugin-datepicker": {
+        "com.sharinglabs.cordova.plugin.datepicker": {
             "PACKAGE_NAME": "com.github.powercal"
         }
     },

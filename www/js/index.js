@@ -152,12 +152,25 @@ function startApp() {
 		location.href = '#places_overview';
 	});
 
-	$("#t_start").on('click', function(){
-		calendar($("#t_start"));
+	$("#t_startd").on('click', function(){
+		calendard($("#t_startd"));
+	});
+
+	$("#t_startt").on('click', function(){
+		calendart($("#t_startt"));
 	});
 	
-	$("#t_end").on('click', function(){
+/*	$("#t_end").on('click', function(){
 		calendar($("#t_end"));
+	});*/
+
+
+	$("#t_endd").on('click', function(){
+		calendard($("#t_endd"));
+	});
+
+	$("#t_endt").on('click', function(){
+		calendart($("#t_endt"));
 	});
 	
 	$("#addTeilnehmer").on('click', function(){
@@ -256,23 +269,61 @@ function processAppointment() {
 	}
 }
 
-function calendar(control) {
+function calendard(control) {
 
-	var options = {
+	var option = {
 		date : new Date(),
-		mode : 'datetime'
+		mode : 'date'
 	};
 
+
+	alert(new Date());
+
 	function onSuccess(date) {
-		var time = date.getHours() + ':' + date.getMinutes();
+/*		var time = date.getHours() + ':' + date.getMinutes();
 		var day = date.getDay() + '.' + date.getMonth() + '.'
-				+ date.getFullYear();
-		control.val(day + ' ' + time);
+				+ date.getFullYear();*/
+		var day = date.getDate() + "." + [date.getMonth() + 1] + "." + date.getFullYear();
+
+		alert("date:" + day);
+
+		//control.val(day + ' ' + time);
+		control.val(day);
+
+	}
+
+	function onError(error) { // Android only
+		// alert('Error: ' + error);
+	}
+	
+	datePicker.show(option, onSuccess, onError);
+}
+
+function calendart(control) {
+
+	var option = {
+		date : new Date(),
+		mode : 'time'
+	};
+
+	alert(new Date());
+
+
+	function onSuccess(date) {
+/*		var time = date.getHours() + ':' + date.getMinutes();
+		var day = date.getDay() + '.' + date.getMonth() + '.'
+				+ date.getFullYear();*/
+		var time = date.getHours() + ":" + date.getMinutes();
+
+		alert("date:" + time);
+		control.val (time);
+
 	}
 
 	function onError(error) { // Android only
 		// alert('Error: ' + error);
 	}
 
-	datePicker.show(options, onSuccess, onError);
+	datePicker.show(option, onSuccess, onError);
 }
+

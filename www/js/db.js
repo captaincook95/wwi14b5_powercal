@@ -186,8 +186,8 @@ function deletePlace(oid){
 function createAppointment(){
 		var ttitel = $("#t_titel").val();
 		var tiod = $("#place_id").val();
-		var tstart = $("#t_start").val();
-		var tend = $("#t_end").val();
+		var tstart = $("#t_startd").val() + " " + $("#t_startt").val();
+		var tend = $("#t_endd").val()+ " " + $("#t_endt").val();
 		// var tfile = $('t_file').val();
 		var bem = $("#t_note").val();
 		db.transaction(newAppointment, errorCB, successCB);

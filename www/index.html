@@ -39,7 +39,7 @@
     <body>
 
     		<!-- Page: index -->
-            <div data-role="page" id="index">
+            <div data-role="page" id="index" >
 				<div data-role="header">
 					<a href="#index" class="ui-btn ui-shadow ui-corner-all ui-icon-home ui-btn-icon-left ui-btn-icon-notext">Home</a>
 					<h1>PowerCal</h1>
@@ -82,10 +82,29 @@
 					<input name="place_name" id="place_name" type="text" readonly>
  					<input name="place_id" id="place_id" type="hidden">
 					
-					<label for="t_start">Beginn: </label>
-					<input name="t_start" id="t_start" type="text" required="required">
-					<label for="t_end">Ende: </label>
-					<input name="t_end" id="t_end" type="text" required="required">
+					<label> Beginn: </label>
+					<div class="ui-grid-a">
+      					<div class="ui-block-a">
+      						<label for="t_startd">Tag: </label>
+							<input name="t_startd" id="t_startd" type="text" width="40%" required="required" readonly> <br>
+						</div>	
+						<div class="ui-block-b">
+							<label for="t_startt">Uhrzeit: </label>	
+							<input name="t_startt" id="t_startt" type="text" required="required" readonly> <br>
+						</div>
+					</div>			
+
+					<label> Ende: </label>
+					<div class="ui-grid-a">
+      					<div class="ui-block-a">
+      						<label for="t_endd">Tag: </label>
+							<input name="t_endd" id="t_endd" type="text" required="required" readonly> <br>
+						</div>	
+						<div class="ui-block-b">
+							<label for="t_endt"> Uhrzeit: </label>	
+							<input name="t_endt" id="t_endt" type="text" required="required" readonly> <br>
+						</div>
+					</div>			
 					
 					<label for="addTeilnehmer">Teilnehmer: </label>
 					<a data-role="button" id="addTeilnehmer">Hinzuf&uuml;gen</a>

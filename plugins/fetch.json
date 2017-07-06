@@ -31,10 +31,10 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-datepicker": {
+    "com.sharinglabs.cordova.plugin.datepicker": {
         "source": {
-            "type": "registry",
-            "id": "cordova-plugin-datepicker"
+            "type": "local",
+            "path": "C:\\Users\\Toshiba\\Documents\\GitHub\\wwi14b5_powercal\\cordova-plugin-datepicker-master\\cordova-plugin-datepicker-master"
         },
         "is_top_level": true,
         "variables": {}
