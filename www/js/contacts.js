@@ -20,7 +20,7 @@ function addTeilnehmer(contact) {
 	var contact_id = $(contact).attr('data-kid')
 	getContactDetails(contact_id, function(tx, results) {
 		var row = results.rows.item(0); // Es kann immer nur eine Zeile
-										// zurückkommen, da ID unique ist
+		// zurückkommen, da ID unique ist
 		$("#aktiveTeilnehmer").append(
 				'<li><a data-kid="' + row['kid'] + '">' + row['NACHNAME']
 						+ ', ' + row['VORNAME'] + '</a></li>');
@@ -33,7 +33,7 @@ function fillContactForm(contact) {
 	var contact_id = $(contact).attr('data-kid')
 	getContactDetails(contact_id, function(tx, results) {
 		var row = results.rows.item(0); // Es kann immer nur eine Zeile
-										// zurückkommen, da ID unique ist
+		// zurückkommen, da ID unique ist
 		$('#kontakt_name').val(row['NACHNAME']);
 		$('#kontakt_vorname').val(row['VORNAME']);
 		$('#kontakt_telnr').val(row['TELNR']);
@@ -58,7 +58,23 @@ function processContact() {
 	}
 }
 
-function importContact() {
+function impContact() {
+	var permissions = cordova.plugins.permissions;
+	permissions.requestPermission(permissions.READ_CONTACTS, successCB,errorCB);
+	function successCB(status) {
+		if(status.hasPermission){
+			getFromContact();
+			} else {
+				alert("Stellen Sie sicher, dass diese App Zugriff auf Ihre Kontakte hat");
+			}
+		
+	}
+	function errorCB() {
+		alert("Fehler beim Abruf");
+	}
+}
+
+function getFromContact() {
 	clearContactForm();
 	navigator.contacts
 			.pickContact(

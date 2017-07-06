@@ -44,7 +44,7 @@ function processPlace() {
 	if (place_id === "") {
 		createPlace();
 	} else {
-		update_place(place_id);
+		updatePlace(place_id);
 	}
 }
 

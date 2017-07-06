@@ -115,9 +115,11 @@
 					<label for="t_file">Anhang: </label>
 					<input name="t_file" id="t_file" type="file">
 					 -->
+					<a data-role="button" id="getImage">Dokument fotografieren</a>
+					<ul data-role="listview" id="documentsList" data-inset="true"></ul>
 					
 					<label for="t_note">Bemerkung: </label>
-					<textarea name="t_note" id="t_note"" type="text" rows="5"></textarea>
+					<textarea name="t_note" id="t_note" rows="5"></textarea>
 					
 					<a data-role="button" id="newAppointment">Termin erstellen</a>											   
 				</div>
@@ -146,6 +148,9 @@
 
 				<label for="teilnehmer_d">Teilnehmer: </label>
 				<ul data-role="listview" id="teilnehmer_d" data-inset="true"></ul>
+				
+				<label for="documentsList_d">Dokumente: </label>
+				<ul data-role="listview" id="documentsList_d" data-inset="true"></ul>
 
 				<label for="note_d">Bemerkung: </label>
 				<textarea id="note_d" rows="5"></textarea>
@@ -247,7 +252,9 @@
 					<label>Land</label>
 					<input id="ort_land" type="text">
 					<a data-role="button" id="savePlace">Speichern</a>
+					<div>
 					<a data-role="button" id="deletePlace">L&ouml;schen</a>
+					</div>
 					<a data-role="button" id="openInMaps">In Google Maps &ouml;ffnen</a>
 				</div>
 			</div>

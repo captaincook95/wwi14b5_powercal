@@ -68,7 +68,7 @@ function startApp() {
 	});
 
 	$("#importContact").on('click', function(){
-		importContact();
+		impContact();
 	});
 
 	// Places
@@ -176,6 +176,44 @@ function startApp() {
 	$("#addTeilnehmer").on('click', function(){
 		location.href="#contacts_overview";
 	});
+	
+	$("#getImage").on('click', function(){
+		takePicture();
+	});
+	
+	$(document).on('swiperight', '#documentsList a', function() {
+		$(this).closest('li').remove();
+		$("#documentsList").listview("refresh");
+	});
+	
+	$(document).on('click', '#documentsList a', function() {
+		var filePath = $(this).attr('data-path');
+		cordova.plugins.fileOpener2.open(
+			    filePath, 
+			    'image/jpeg', 
+			    {
+			        error : function(){alert("Fehler"); }, 
+			        success : function(){ } 
+			    } 
+			);
+	});
+	
+	$(document).on('swiperight', '#documentsList_d a', function() {
+		$(this).closest('li').remove();
+		$("#documentsList_d").listview("refresh");
+	});
+	
+	$(document).on('click', '#documentsList_d a', function() {
+		var filePath = $(this).attr('data-path');
+		cordova.plugins.fileOpener2.open(
+			    filePath, 
+			    'image/jpeg', 
+			    {
+			        error : function(){alert("Fehler"); }, 
+			        success : function(){ } 
+			    } 
+			);
+	});
 }
 
 // Appointments
@@ -210,6 +248,8 @@ function clearDetailsAppointmentForm() {
 	$('#teilnehmer_d').empty();
 	//$('#t_file').val('');
 	$('#note_d').val('');
+	$('#documentsList').empty();
+	$('#documentsList_d').empty();
 }
 
 function clearNewAppointmentForm() {
@@ -256,6 +296,16 @@ function fillDetailsAppointmentForm(appointment) {
 				$("#teilnehmer_d").append('<li><a data-kid="' + row['kid'] + '">' + row['NACHNAME'] + ', ' + row['VORNAME'] + '</a></li>');
 				$("#teilnehmer_d").listview("refresh");
 			});	
+		}
+	});
+	
+	//Fill documents
+	getAppointmentDocuments(tid, function(tx, results){
+		for (var i = 0; i < results.rows.length; i++){
+			var bez = results.rows.item(i)['BEZEICHNUNG'];
+			var file = results.rows.item(i)['FILE'];
+			$("#documentsList_d").append('<li><a data-path="' + file + '">' + bez + '</a></li>');
+			$("#documentsList_d").listview("refresh");
 		}
 	});
 }
@@ -327,3 +377,28 @@ function calendart(control) {
 	datePicker.show(option, onSuccess, onError);
 }
 
+<<<<<<< HEAD
+=======
+function takePicture(){
+	navigator.camera.getPicture(onSuccess, onFail, {
+		quality: 50,
+		destinationType: Camera.DestinationType.NATIVE_URI,
+		sourceType: Camera.PictureSourceType.CAMERA
+		});
+	
+	function onSuccess(pathToFile){
+		var bez = "";
+		bez = prompt("Bezeichnung für das Dokument eintragen","");
+		if (bez == ""){
+			alert("Kein Name angegeben. Kann Dokument nicht speichern.");
+		} else {
+			$('#documentsList').append('<li><a href="#" data-path="' + pathToFile + '">' + bez + '</a></li>');
+			$("#documentsList").listview("refresh");	
+		}
+	}
+	
+	function onFail(message){
+		alert("Fehler beim Abrufen des Bildes: " + message)
+	}
+}
+>>>>>>> 3aaf3609ceba83e479c168294630118f53cf91f1
