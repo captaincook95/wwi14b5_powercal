@@ -13,10 +13,16 @@
         "cordova-plugin-contacts": {
             "PACKAGE_NAME": "com.github.powercal"
         },
+        "cordova-plugin-datepicker": {
+            "PACKAGE_NAME": "com.github.powercal"
+        },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.github.powercal"
         },
-        "cordova-plugin-datepicker": {
+        "cordova-plugin-android-permissions": {
+            "PACKAGE_NAME": "com.github.powercal"
+        },
+        "cordova-plugin-file-opener2": {
             "PACKAGE_NAME": "com.github.powercal"
         }
     },

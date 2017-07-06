@@ -6,7 +6,7 @@ function openDB() {
 		function createTables(tx){
 			tx.executeSql("CREATE TABLE IF NOT EXISTS TERMIN (tid INTEGER PRIMARY KEY, ANFANG TEXT, ENDE TEXT, TITEL TEXT, BESCHREIBUB TEXT, OID INTEGER);");
 			tx.executeSql("CREATE TABLE IF NOT EXISTS KUNDE (kid INTEGER PRIMARY KEY, VORNAME TEXT, NACHNAME TEXT, TELNR TEXT,EMAIL TEXT, OID INTEGER,BEMERKUNG TEXT);");
-			tx.executeSql("CREATE TABLE IF NOT EXISTS DOKUMENT (did INTEGER PRIMARY KEY, TID INTEGER, FILE BLOB,DATUM TEXT,BEMERKUNG TEXT,MIMETYPE TEXT);");
+			tx.executeSql("CREATE TABLE IF NOT EXISTS DOKUMENT (did INTEGER PRIMARY KEY, TID INTEGER, FILE TEXT, BEZEICHNUNG TEXT);");
 			tx.executeSql("CREATE TABLE IF NOT EXISTS ORT (oid INTEGER PRIMARY KEY,PLZ TEXT,LAND TEXT, STADT TEXT, STRASSE TEXT, HAUSNUMMER TEXT, BEZEICHNUNG TEXT);");
 			tx.executeSql("CREATE TABLE IF NOT EXISTS TERMIN_KUNDE (TID INTEGER , KID INTEGER);");
 		}
@@ -197,8 +197,13 @@ function createAppointment(){
         			var tid = results.insertId;
 					$("#aktiveTeilnehmer a").each(function(idx, a){
 						var kid = $(a).attr('data-kid');
-						// alert('List: ' + idx + ', ' + tid + ', ' + kid);
 						tx.executeSql("INSERT INTO TERMIN_KUNDE (TID, KID) VALUEs (?,?)", [tid, kid]);
+					});
+					$("#documentsList a").each(function(idx, a){
+						var img_path = $(a).attr('data-path');
+						var img_bez = $(a).text();
+						alert("Inserting image " + img_bez + " with path " + img_path);
+						tx.executeSql("INSERT INTO DOKUMENT (TID, FILE, BEZEICHNUNG) VALUEs (?,?,?)", [tid, img_path, img_bez]);
 					});
     			});
 		}
@@ -281,6 +286,16 @@ function getAppointmentDetails(tid,callback){
 function getAppointmentContacts(tid, callback){
 	db.transaction(function(tx){
 		tx.executeSql("SELECT * FROM TERMIN_KUNDE WHERE TID = ?",[tid],callback);
+	},errorCB,successCB);
+	function errorCB(err){
+	}
+	function successCB(){
+	}
+}
+
+function getAppointmentDocuments(tid,callback){
+	db.transaction(function(tx){
+		tx.executeSql("SELECT * FROM DOKUMENT WHERE tid = ?",[tid],callback);
 	},errorCB,successCB);
 	function errorCB(err){
 	}
