@@ -173,7 +173,7 @@ function fillAppointmentsList() {
 				for (var i = 0; i < results.rows.length; i++){
 					//alert("Row: " + i);
 					var row = results.rows.item(i);
-					$("#appointments").append('<li><a href="#" data-tid="' + row['tid'] + '">' + row['ANFANG'] + '</a>');
+					$("#appointments").append('<li><a href="#" data-tid="' + row['tid'] + '">' + '<h2>' + row['ANFANG'] + '</h2>' + '<p>' + row['TITEL'] + '</p>' + '</a>');
 			}
 			//alert("Listview completed");
 			$("#appointments").listview('refresh');

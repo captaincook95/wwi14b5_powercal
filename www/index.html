@@ -52,7 +52,7 @@
 					<form class="ui-filterable">
       					<input id="myFilter" data-type="search">
     				</form>
-					<ul data-role="listview" id="appointments" data-inset="true" data-sort="true" data-filter="true" data-input="#myFilter" data-autodividers="true" >
+					<ul data-role="listview" id="appointments" data-inset="true" data-sort="true" data-filter="true" data-input="#myFilter" >  <!-- data-autodividers="true" > -->
 					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
 					</ul>														  
 				</div>
@@ -144,9 +144,16 @@
 				</div>
 				<div role="main" class="ui-content" >
 					Hier k&ouml;nnen Kontakte verwaltet werden
-					<ul data-role="listview" data-inset="true" data-sort="true" id="contacts">
+
+					<form class="ui-filterable">
+      					<input id="myFilter" data-type="search">
+    				</form>
+					<ul data-role="listview" id="contacts" data-inset="true" data-sort="true" data-filter="true" data-input="#myFilter" data-autodividers="true" >
 					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
 					</ul>
+					<!-- <ul data-role="listview" data-inset="true" data-sort="true" id="contacts">
+					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
+					<!-- </ul> -->
 					<a data-role="button" href="#contact_details" id="newContactForm">Neuer Kontakt</a>
 				</div>
 			</div>
@@ -185,10 +192,17 @@
 				</div>
 				<div role="main" class="ui-content" >
 					Hier k&ouml;nnen Orte ausgew&auml;hlt und verwaltet werden<br>
-					Zum Bearbeiten &uuml;ber einen Kontakt nach rechts wischen
-					<ul data-role="listview" data-inset="true" data-sort="true" id="places">
+					Zum Bearbeiten &uuml;ber einen Ort nach rechts wischen
+					<form class="ui-filterable">
+      					<input id="myFilter" data-type="search">
+    				</form>
+					<ul data-role="listview" id="places"  data-inset="true" data-sort="true" data-filter="true" data-input="#myFilter" data-autodividers="true" >
 					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
 					</ul>
+
+<!-- 					<ul data-role="listview" data-inset="true" data-sort="true" id="places">
+					<!-- Inhalt wird zur Laufzeit mit Javascript einfügt -->
+<!-- 					</ul> -->
 					<a data-role="button" href="#place_details" id="newPlaceForm">Neuer Ort</a>
 				</div>
 			</div>
